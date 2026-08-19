@@ -12,7 +12,7 @@ const products = [
         id: 1,
         name: "Cartela Bateria 364",
         category: "Baterias",
-        image: "364.jpg",
+        image: "fotosProdutos/364.png", // <--- Atualizado com a pasta
         wholesaleCard: 9.00,
         wholesalePix: 8.00,
         retailCard: 25.00,
@@ -23,7 +23,7 @@ const products = [
         id: 2,
         name: "Cartela Bateria 377",
         category: "Baterias",
-        image: "377.jpg",
+        image: "fotosProdutos/377.png",
         wholesaleCard: 9.00,
         wholesalePix: 8.00,
         retailCard: 25.00,
@@ -32,7 +32,7 @@ const products = [
     },
     {
         id: 3,
-        name: "Cartela Bateria 395",
+        name: "Pilha DuraCell aaa",
         category: "Baterias",
         image: "395.jpg",
         wholesaleCard: 10.00,
@@ -173,7 +173,7 @@ function closeCart() {
 }
 
 /* =========================================
-   ADICIONAR AO CARRINHO (BLindado contra ID trocado)
+   ADICIONAR AO CARRINHO
 ========================================= */
 
 function addToCart(id) {
@@ -231,9 +231,9 @@ function changeQuantity(id, amount) {
 }
 
 /* =========================================
-   VARIÁVEL DE FORMA DE PAGAMENTO (Nenhuma selecionada inicialmente)
+   VARIÁVEL DE FORMA DE PAGAMENTO
 ========================================= */
-let selectedPaymentMethod = null; // Começa sem seleção
+let selectedPaymentMethod = null;
 
 /* =========================================
    ATUALIZAR CARRINHO E APLICAR ATACADO GERAL (TOTAL >= 5)
@@ -243,7 +243,6 @@ function updateCart() {
     const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
     const isGlobalWholesale = totalItems >= 5;
 
-    // Se nenhuma forma foi escolhida ainda, calcula temporariamente com base no Pix só para exibir um valor base, ou R$ 0,00 se preferir. Vamos usar o Pix como padrão de exibição inicial até ele escolher.
     const paymentMode = selectedPaymentMethod || 'pix';
 
     const totalPrice = cart.reduce((total, item) => {
@@ -321,7 +320,7 @@ function updateCart() {
 }
 
 /* =========================================
-   SELEÇÃO DE PAGAMENTO (SEM SELEÇÃO PRÉVIA)
+   SELEÇÃO DE PAGAMENTO
 ========================================= */
 
 function setPaymentMethod(method) {
@@ -352,46 +351,54 @@ function setPaymentMethod(method) {
 }
 
 /* =========================================
-   CHECKOUT WHATSAPP COM VALIDAÇÃO DE PAGAMENTO
+   CHECKOUT WHATSAPP COM CORREÇÃO DO NaN
 ========================================= */
 
-document.getElementById("checkoutButton").addEventListener("click", () => {
+document.getElementById('checkoutButton').addEventListener('click', () => {
     if (cart.length === 0) {
-        showToast("Seu carrinho está vazio.");
+        alert("Seu carrinho está vazio!");
         return;
     }
 
-    // Validação se o usuário escolheu a forma de pagamento
     if (!selectedPaymentMethod) {
-        showToast("⚠️ Escolha entre Pix/Dinheiro ou Cartão!");
+        alert("Por favor, selecione a forma de pagamento (Pix/Dinheiro ou Cartão) antes de continuar.");
         return;
     }
 
-    const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
-    const isGlobalWholesale = totalItems >= 5;
-    const paymentName = selectedPaymentMethod === 'cartao' ? 'Cartão' : 'Pix / Dinheiro';
+    const totalItens = cart.reduce((sum, item) => sum + item.quantity, 0);
+    const isGlobalWholesale = totalItens >= 5;
+    const tipoPedido = isGlobalWholesale ? "Atacado" : "Varejo";
+    const formaPagamentoTexto = selectedPaymentMethod === 'pix' ? 'Pix / Dinheiro' : 'Cartão';
 
-    let message = `Olá! Gostaria de fazer um pedido na A3MS:%0A`;
-    message += `💳 *Forma de Pagamento:* ${paymentName}%0A%0A`;
+    let produtosTexto = "";
+    let valorTotalGeral = 0;
 
     cart.forEach(item => {
-        let activePrice = selectedPaymentMethod === 'cartao' 
-            ? (isGlobalWholesale ? item.wholesaleCard : item.retailCard)
-            : (isGlobalWholesale ? item.wholesalePix : item.retailPix);
+        produtosTexto += `${item.quantity} x ${item.name}\n`;
+        
+        // Pega o preço correto baseado no tipo de pagamento e regra de atacado
+        let activePrice;
+        if (selectedPaymentMethod === 'cartao') {
+            activePrice = isGlobalWholesale ? item.wholesaleCard : item.retailCard;
+        } else {
+            activePrice = isGlobalWholesale ? item.wholesalePix : item.retailPix;
+        }
 
-        const subtotal = activePrice * item.quantity;
-        message += `• ${item.quantity}x ${item.name} (${isGlobalWholesale ? 'Atacado' : 'Varejo'}) - ${formatPrice(subtotal)}%0A`;
+        valorTotalGeral += activePrice * item.quantity;
     });
 
-    const total = cart.reduce((sum, item) => {
-        let activePrice = selectedPaymentMethod === 'cartao' 
-            ? (isGlobalWholesale ? item.wholesaleCard : item.retailCard)
-            : (isGlobalWholesale ? item.wholesalePix : item.retailPix);
-        return sum + (activePrice * item.quantity);
-    }, 0);
+    let mensagem = `Olá, estou solicitando um orçamento no *${tipoPedido}*\n\n`;
+    mensagem += `Produtos:\n${produtosTexto}\n`;
+    mensagem += `Forma de pagamento: *${formaPagamentoTexto}*\n\n`;
+    
+    const totalFormatado = valorTotalGeral.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    mensagem += `Total: *${totalFormatado}*`;
 
-    message += `%0A*Total Geral (${paymentName}): ${formatPrice(total)}*`;
-    window.open(`https://wa.me/5511999999999?text=${message}`, "_blank");
+    const mensagemCodificada = encodeURIComponent(mensagem);
+    const numeroWhatsApp = "5521990440544";
+    const urlWhatsApp = `https://api.whatsapp.com/send?phone=${numeroWhatsApp}&text=${mensagemCodificada}`;
+    
+    window.open(urlWhatsApp, '_blank');
 });
 
 /* =========================================
@@ -402,7 +409,6 @@ openCartButton.addEventListener("click", openCart);
 closeCartButton.addEventListener("click", closeCart);
 cartOverlay.addEventListener("click", closeCart);
 
-// Delegação de cliques para garantir que qualquer botão funcione perfeitamente
 document.addEventListener("click", event => {
     const button = event.target.closest(".add-cart, .quick-add");
     if (button) {
@@ -504,49 +510,6 @@ menuButton.addEventListener("click", () => mobileMenu.classList.toggle("active")
 
 document.querySelectorAll(".mobile-menu a").forEach(link => {
     link.addEventListener("click", () => mobileMenu.classList.remove("active"));
-});
-
-/* =========================================
-   CHECKOUT WHATSAPP COM TRAVA ABSOLUTA
-========================================= */
-
-document.getElementById("checkoutButton").addEventListener("click", () => {
-    if (cart.length === 0) {
-        showToast("Seu carrinho está vazio.");
-        return;
-    }
-
-    // TRAVA RIGOROSA: Se não escolheu Pix ou Cartão, barra na hora e NÃO vai pro WhatsApp
-    if (!selectedPaymentMethod) {
-        showToast("⚠️ Escolha entre Pix/Dinheiro ou Cartão antes de finalizar!");
-        return;
-    }
-
-    const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
-    const isGlobalWholesale = totalItems >= 5;
-    const paymentName = selectedPaymentMethod === 'cartao' ? 'Cartão' : 'Pix / Dinheiro';
-
-    let message = `Olá! Gostaria de fazer um pedido na A3MS:%0A`;
-    message += `💳 *Forma de Pagamento:* ${paymentName}%0A%0A`;
-
-    cart.forEach(item => {
-        let activePrice = selectedPaymentMethod === 'cartao' 
-            ? (isGlobalWholesale ? item.wholesaleCard : item.retailCard)
-            : (isGlobalWholesale ? item.wholesalePix : item.retailPix);
-
-        const subtotal = activePrice * item.quantity;
-        message += `• ${item.quantity}x ${item.name} (${isGlobalWholesale ? 'Atacado' : 'Varejo'}) - ${formatPrice(subtotal)}%0A`;
-    });
-
-    const total = cart.reduce((sum, item) => {
-        let activePrice = selectedPaymentMethod === 'cartao' 
-            ? (isGlobalWholesale ? item.wholesaleCard : item.retailCard)
-            : (isGlobalWholesale ? item.wholesalePix : item.retailPix);
-        return sum + (activePrice * item.quantity);
-    }, 0);
-
-    message += `%0A*Total Geral (${paymentName}): ${formatPrice(total)}*`;
-    window.open(`https://wa.me/5521990440544?text=${message}`, "_blank");
 });
 
 /* =========================================

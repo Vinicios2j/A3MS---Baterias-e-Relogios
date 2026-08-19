@@ -25,7 +25,7 @@
         <div class="container header-content">
 
             <a href="#" class="logo">
-                <div class="logo-icon">A3</div>
+                <img src="logo.png" style="width: 50px;" alt="Logo A3M's" class="logo-img">
                 <div>
                     <strong>A3MS</strong>
                     <span>Baterias & Relógios</span>
@@ -148,24 +148,7 @@
 
                 <div class="hero-visual">
 
-                    <div class="hero-circle"></div>
-
-                    <div class="battery-card battery-back">
-                        <div class="battery-top"></div>
-                        <div class="battery-body">
-                            <span>ENERGY</span>
-                            <strong>AAA</strong>
-                        </div>
-                    </div>
-
-                    <div class="battery-card battery-front">
-                        <div class="battery-top"></div>
-                        <div class="battery-body">
-                            <span>A3MS</span>
-                            <strong>POWER</strong>
-                            <small>ALTA PERFORMANCE</small>
-                        </div>
-                    </div>
+                    <img style="width: 700px;" src="banner.png" alt="banner A3MS">
 
                     <div class="floating-tag tag-one">
                         🔋
@@ -340,10 +323,17 @@
                 <div class="products-grid" id="productsGrid">
 
                     <!-- PRODUTO 1 -->
+                    <!-- PRODUTO 1 -->
                     <article class="product-card" data-category="baterias" data-name="Cartela Bateria 364">
-                        <div class="product-image">
-                            <span class="product-tag">Destaque</span>
-                            <div class="product-placeholder battery-product"><span>364</span></div>
+                        <div class="product-image"
+                            style="position: relative; overflow: hidden; height: 200px; background: #f3f4f6;">
+                            <span class="product-tag"
+                                style="position: absolute; top: 10px; left: 10px; z-index: 2;">Destaque</span>
+
+                            <!-- IMAGEM REAL DA PASTA -->
+                            <img src="fotosProdutos/364.png" alt="Cartela Bateria 364"
+                                style="width: 100%; height: 100%; object-fit: cover; display: block;">
+
                             <button class="quick-add" data-id="1" title="Adicionar">+</button>
                         </div>
                         <div class="product-info">
@@ -373,9 +363,14 @@
                     </article>
 
                     <!-- PRODUTO 2 -->
+                    <!-- PRODUTO 2 -->
                     <article class="product-card" data-category="baterias" data-name="Cartela Bateria 377">
-                        <div class="product-image">
-                            <div class="product-placeholder battery-product"><span>377</span></div>
+                        <div class="product-image"
+                            style="position: relative; overflow: hidden; height: 200px; background: #f3f4f6;">
+                            <!-- IMAGEM REAL DA PASTA -->
+                            <img src="fotosProdutos/377.png" alt="Cartela Bateria 377"
+                                style="width: 100%; height: 100%; object-fit: cover; display: block;">
+
                             <button class="quick-add" data-id="2" title="Adicionar">+</button>
                         </div>
                         <div class="product-info">
@@ -405,114 +400,90 @@
                     </article>
 
                     <!-- PRODUTO 3 -->
-                    <article class="product-card" data-category="pilhas" data-name="Pilha AAA">
-                        <div class="product-image">
-                            <div class="product-placeholder aa-product"><span>AAA</span></div>
-                            <button class="quick-add" data-id="7" title="Adicionar">+</button>
-                        </div>
-                        <div class="product-info">
-                            <span class="product-category">Pilhas</span>
-                            <h3>Pilha AAA</h3>
-                            <p class="product-description">Pilha AAA com alta durabilidade.</p>
-                            <div class="product-bottom">
-                                <div class="price-container">
-                                    <div class="price-type">
-                                        <small>Varejo</small>
-                                        <div class="price-box">
-                                            <span class="price-card">Cartão: R$ 5,00</span>
-                                            <span class="price-pix">Pix: <strong>R$ 4,00</strong></span>
-                                        </div>
-                                    </div>
-                                    <div class="price-type">
-                                        <small>Atacado (5+ un)</small>
-                                        <div class="price-box">
-                                            <span class="price-card">Cartão: R$ 3,00</span>
-                                            <span class="price-pix">Pix: <strong>R$ 2,50</strong></span>
-                                        </div>
+<!-- PRODUTO 3 -->
+                <article class="product-card" data-category="baterias" data-name="Pilha AAA Dura Cell">
+                    <div class="product-image" style="position: relative; overflow: hidden; height: 200px; background: #f3f4f6;">
+                        <!-- IMAGEM REAL DA PASTA -->
+                        <img src="fotosProdutos/duraaa.png" alt="Cartela Bateria 395" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                        
+                        <button class="quick-add" data-id="3" title="Adicionar">+</button>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Baterias</span>
+                        <h3>Pilha DuraCell AAA</h3>
+                        <p class="product-description">Bateria de alta performance.</p>
+                        <div class="product-bottom">
+                            <div class="price-container">
+                                <div class="price-type">
+                                    <small>Varejo</small>
+                                    <div class="price-box">
+                                        <span class="price-card">Cartão: R$ 28,00</span>
+                                        <span class="price-pix">Pix: <strong>R$ 18,00</strong></span>
                                     </div>
                                 </div>
-                                <button class="add-cart" data-id="7">Comprar</button>
-                            </div>
-                        </div>
-                    </article>
-
-                    <!-- PRODUTO 4 -->
-                    <article class="product-card" data-category="pilhas" data-name="Pilha AA">
-                        <div class="product-image">
-                            <div class="product-placeholder aa-product"><span>AA</span></div>
-                            <button class="quick-add" data-id="8" title="Adicionar">+</button>
-                        </div>
-                        <div class="product-info">
-                            <span class="product-category">Pilhas</span>
-                            <h3>Pilha AA</h3>
-                            <p class="product-description">Pilha AA para controles e portões.</p>
-                            <div class="product-bottom">
-                                <div class="price-container">
-                                    <div class="price-type">
-                                        <small>Varejo</small>
-                                        <div class="price-box">
-                                            <span class="price-card">Cartão: R$ 5,00</span>
-                                            <span class="price-pix">Pix: <strong>R$ 4,00</strong></span>
-                                        </div>
-                                    </div>
-                                    <div class="price-type">
-                                        <small>Atacado (5+ un)</small>
-                                        <div class="price-box">
-                                            <span class="price-card">Cartão: R$ 3,00</span>
-                                            <span class="price-pix">Pix: <strong>R$ 2,50</strong></span>
-                                        </div>
+                                <div class="price-type">
+                                    <small>Atacado (5+ un)</small>
+                                    <div class="price-box">
+                                        <span class="price-card">Cartão: R$ 10,00</span>
+                                        <span class="price-pix">Pix: <strong>R$ 9,00</strong></span>
                                     </div>
                                 </div>
-                                <button class="add-cart" data-id="8">Comprar</button>
                             </div>
+                            <button class="add-cart" data-id="3">Comprar</button>
                         </div>
-                    </article>
+                    </div>
+                </article>
 
+                    
                 </div>
 
             </div>
         </section>
 
         <!-- ONDE ESTAMOS / LOCALIZAÇÃO -->
+        <!-- LOCALIZAÇÃO -->
         <section class="location section" id="onde-estamos" style="background-color: #f9fafb; padding: 60px 0;">
-            <div class="container">
+            <div class="container" style="max-width: 1000px; margin: 0 auto;">
 
                 <div class="section-heading" style="text-align: center; margin-bottom: 40px;">
-                    <span class="section-label">VENHA NOS VISITAR</span>
-                    <h2>Onde Estamos</h2>
-                    <p style="color: #6b7280; margin-top: 8px;">
+                    <span class="section-label"
+                        style="color: #16a34a; font-weight: 600; text-transform: uppercase; font-size: 12px; letter-spacing: 1px;">VENHA
+                        NOS VISITAR</span>
+                    <h2 style="font-size: 28px; margin: 10px 0; color: #111827;">Onde Estamos</h2>
+                    <p style="color: #6b7280; font-size: 16px;">
                         Rua dos Andradas, Nº 29, Sobreloja 201 - Centro, Rio de Janeiro - RJ
                     </p>
                 </div>
 
-                <!-- Grid: Mapa do Google à esquerda e Fotos da Loja à direita -->
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center;"
-                    class="location-grid">
+                <!-- Bloco Geral Empilhado -->
+                <div style="display: flex; flex-direction: column; gap: 30px;">
 
-                    <!-- Google Maps Iframe -->
+                    <!-- 1. Google Maps Iframe (Grande em cima) -->
                     <div
-                        style="border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); height: 350px;">
+                        style="border-radius: 16px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08); width: 100%; height: 400px; background: #fff;">
                         <iframe
                             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3675.246164392535!2d-43.1841864237783!3d-22.904289537783594!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x997f79ed0609f3%3A0x3d5760273626224!2sA3MS%20BATERIAS%20E%20REL%C3%93GIOS!5e0!3m2!1spt-BR!2sbr!4v1787143854769!5m2!1spt-BR!2sbr"
-                            width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                            width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
                             referrerpolicy="strict-origin-when-cross-origin"></iframe>
                     </div>
 
-                    <!-- Fotos da Loja (Substitua os links das imagens pelas fotos reais da sua loja) -->
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; height: 350px;">
+                    <!-- 2. Fotos da Loja (Lado a lado embaixo, grandes e sem cortes) -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+
+                        <!-- Foto 1: Externa Edifício Seklan -->
                         <div
-                            style="background: #e5e7eb; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #4b5563; font-weight: 600; overflow: hidden; position: relative;">
-                            <!-- Exemplo com placeholder, troque por <img src="sua-foto-1.jpg" style="width:100%; height:100%; object-fit:cover;"> -->
-                            <div style="text-align: center; padding: 10px;">
-                                <span>📷 Foto da Fachada / Vitrine</span>
-                            </div>
+                            style="background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08); height: 350px;">
+                            <img src="externaSeklan.png" alt="Foto externa do Edifício Seklan"
+                                style="width: 100%; height: 100%; object-fit: cover; display: block;">
                         </div>
+
+                        <!-- Foto 2: Balcão A3MS -->
                         <div
-                            style="background: #e5e7eb; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #4b5563; font-weight: 600; overflow: hidden; position: relative;">
-                            <div style="text-align: center; padding: 10px;">
-                                <span>📷 Foto do Interior / Balcão</span>
-                            </div>
+                            style="background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08); height: 350px;">
+                            <img src="balcãoA3ms.jpeg" alt="Balcão A3MS"
+                                style="width: 100%; height: 100%; object-fit: cover; display: block;">
                         </div>
+
                     </div>
 
                 </div>
@@ -531,43 +502,43 @@
                     <div class="wholesale-content">
 
                         <span class="section-label light">
-                            PARA LOJISTAS E REVENDEDORES
+                            OPORTUNIDADE DE NEGÓCIO
                         </span>
 
                         <h2>
-                            Precisa comprar em
-                            <span>quantidade?</span>
+                            Você já pensou em ser
+                            <span>nosso revendedor?</span>
                         </h2>
 
                         <p>
-                            Trabalhamos com vendas no atacado de baterias,
-                            pilhas, relógios e acessórios. Fale diretamente
-                            com nossa equipe e solicite seu orçamento.
+                            Tenha descontos especiais em relógios novos das marcas Mondaine, Seculus, Technos, Lince,
+                            Orient e muito mais, além de material de apoio e um grupo exclusivo de revendedores!
                         </p>
 
                         <div class="wholesale-features">
 
                             <div>
                                 <strong>✓</strong>
-                                Preços especiais para atacado
+                                Descontos especiais em relógios
                             </div>
 
                             <div>
                                 <strong>✓</strong>
-                                Grande variedade de produtos
+                                Material de apoio para vendas
                             </div>
 
                             <div>
                                 <strong>✓</strong>
-                                Atendimento personalizado
+                                Grupo exclusivo de revendedores
                             </div>
 
                         </div>
 
-                        <a href="https://wa.me/5521990440544?text=Olá!%20Gostaria%20de%20fazer%20um%20orçamento%20no%20atacado."
-                            target="_blank" class="btn whatsapp-btn">
+                        <a href="https://wa.me/5521990440544?text=Olá!%20Quero%20me%20tornar%20revendedor%20e%20ter%20acesso%20a%20todos%20os%20materiais."
+                            target="_blank" class="btn whatsapp-btn"
+                            style="background: #16a34a; color: #fff; text-decoration: none;">
                             <span>◉</span>
-                            Solicitar orçamento no WhatsApp
+                            Quero me tornar revendedor
                         </a>
 
                     </div>
@@ -577,8 +548,8 @@
 
                         <div class="wholesale-circle">
 
-                            <div class="mini-battery">🔋</div>
-                            <div class="mini-watch">⌚</div>
+                            <div class="mini-battery">⌚</div>
+                            <div class="mini-watch">💎</div>
                             <div class="mini-battery two">⚡</div>
 
                         </div>
@@ -631,7 +602,7 @@
 
                 <a href="#" class="logo footer-logo">
 
-                    <div class="logo-icon">A3</div>
+                    <img src="logo.png" style="width: 50px; border-radius: 50%;" alt="Logo A3M's" class="logo-img">
 
                     <div>
                         <strong>A3MS</strong>
