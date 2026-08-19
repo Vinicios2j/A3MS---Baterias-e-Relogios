@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+        content="A3MS Baterias e Relógios - Pilhas, baterias, relógios e acessórios no varejo e atacado.">
+    <meta name="theme-color" content="#16a34a">
+
+    <title>A3MS Baterias e Relógios</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="container header-content">
+
+            <a href="#" class="logo">
+                <div class="logo-icon">A3</div>
+                <div>
+                    <strong>A3MS</strong>
+                    <span>Baterias & Relógios</span>
+                </div>
+            </a>
+
+            <nav class="nav">
+                <a href="#inicio">Início</a>
+                <a href="#categorias">Categorias</a>
+                <a href="#produtos">Produtos</a>
+                <a href="#onde-estamos">Onde estamos</a>
+                <a href="#atacado">Atacado</a>
+            </nav>
+
+            <div class="header-actions">
+
+                <button class="search-button" id="openSearch">
+                    <span>⌕</span>
+                    <span class="search-text">Buscar</span>
+                </button>
+
+                <button class="cart-button" id="openCart">
+                    🛒
+                    <span class="cart-count" id="cartCount">0</span>
+                </button>
+
+                <button class="menu-button" id="menuButton">
+                    ☰
+                </button>
+
+            </div>
+        </div>
+    </header>
+
+
+    <!-- MOBILE MENU -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#inicio">Início</a>
+        <a href="#categorias">Categorias</a>
+        <a href="#produtos">Produtos</a>
+        <a href="#onde-estamos">Onde estamos</a>
+        <a href="#atacado">Atacado</a>
+    </div>
+
+
+    <!-- SEARCH OVERLAY -->
+    <div class="search-overlay" id="searchOverlay">
+
+        <div class="search-box">
+
+            <button class="close-search" id="closeSearch">×</button>
+
+            <h2>Encontre seu produto</h2>
+
+            <div class="search-input-wrapper">
+                <span>⌕</span>
+                <input type="text" id="searchInput" placeholder="Digite o nome do produto..." autocomplete="off">
+            </div>
+
+            <div id="searchResults" class="search-results"></div>
+
+        </div>
+
+    </div>
+
+
+    <main id="inicio">
+
+        <!-- HERO -->
+        <section class="hero">
+
+            <div class="container hero-content">
+
+                <div class="hero-text">
+
+                    <span class="hero-badge">
+                        <span class="pulse"></span>
+                        Qualidade e confiança
+                    </span>
+
+                    <h1>
+                        Energia para o seu
+                        <span>dia a dia.</span>
+                    </h1>
+
+                    <p>
+                        Pilhas, baterias, relógios e acessórios
+                        com qualidade e preços especiais.
+                    </p>
+
+                    <div class="hero-buttons">
+
+                        <a href="#produtos" class="btn btn-primary">
+                            Comprar agora
+                            <span>→</span>
+                        </a>
+
+                        <a href="#atacado" class="btn btn-outline">
+                            Comprar no atacado
+                        </a>
+
+                    </div>
+
+                    <div class="hero-info">
+
+                        <div>
+                            <strong>✓</strong>
+                            <span>Produtos selecionados</span>
+                        </div>
+
+                        <div>
+                            <strong>✓</strong>
+                            <span>Atendimento rápido</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="hero-visual">
+
+                    <div class="hero-circle"></div>
+
+                    <div class="battery-card battery-back">
+                        <div class="battery-top"></div>
+                        <div class="battery-body">
+                            <span>ENERGY</span>
+                            <strong>AAA</strong>
+                        </div>
+                    </div>
+
+                    <div class="battery-card battery-front">
+                        <div class="battery-top"></div>
+                        <div class="battery-body">
+                            <span>A3MS</span>
+                            <strong>POWER</strong>
+                            <small>ALTA PERFORMANCE</small>
+                        </div>
+                    </div>
+
+                    <div class="floating-tag tag-one">
+                        🔋
+                        <span>Qualidade</span>
+                    </div>
+
+                    <div class="floating-tag tag-two">
+                        ⚡
+                        <span>Alta duração</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- BENEFITS -->
+        <section class="benefits">
+
+            <div class="container benefits-grid">
+
+                <div class="benefit">
+                    <div class="benefit-icon">🚚</div>
+                    <div>
+                        <strong>Entrega</strong>
+                        <span>Consulte nossa região</span>
+                    </div>
+                </div>
+
+                <div class="benefit">
+                    <div class="benefit-icon">🔒</div>
+                    <div>
+                        <strong>Compra segura</strong>
+                        <span>Seus dados protegidos</span>
+                    </div>
+                </div>
+
+                <div class="benefit">
+                    <div class="benefit-icon">💬</div>
+                    <div>
+                        <strong>Atendimento</strong>
+                        <span>Fale conosco pelo WhatsApp</span>
+                    </div>
+                </div>
+
+                <div class="benefit">
+                    <div class="benefit-icon">⭐</div>
+                    <div>
+                        <strong>Qualidade</strong>
+                        <span>Produtos selecionados</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- CATEGORIES -->
+        <section class="categories section" id="categorias">
+
+            <div class="container">
+
+                <div class="section-heading">
+
+                    <div>
+                        <span class="section-label">ENCONTRE O QUE PRECISA</span>
+                        <h2>Compre por categoria</h2>
+                    </div>
+
+                    <a href="#produtos" class="see-all">
+                        Ver produtos →
+                    </a>
+
+                </div>
+
+
+                <div class="categories-grid">
+
+                    <button class="category-card" data-category="baterias">
+
+                        <div class="category-icon battery-icon">
+                            🔋
+                        </div>
+
+                        <div>
+                            <h3>Baterias</h3>
+                            <p>Para relógios e eletrônicos</p>
+                        </div>
+
+                        <span class="category-arrow">→</span>
+
+                    </button>
+
+
+                    <button class="category-card" data-category="pilhas">
+
+                        <div class="category-icon">
+                            ⚡
+                        </div>
+
+                        <div>
+                            <h3>Pilhas</h3>
+                            <p>Durabilidade para seu dia</p>
+                        </div>
+
+                        <span class="category-arrow">→</span>
+
+                    </button>
+
+
+                    <button class="category-card" data-category="relogios">
+
+                        <div class="category-icon">
+                            ⌚
+                        </div>
+
+                        <div>
+                            <h3>Relógios</h3>
+                            <p>Estilo para todos os momentos</p>
+                        </div>
+
+                        <span class="category-arrow">→</span>
+
+                    </button>
+
+
+                    <button class="category-card" data-category="acessorios">
+
+                        <div class="category-icon">
+                            🧰
+                        </div>
+
+                        <div>
+                            <h3>Acessórios</h3>
+                            <p>Itens para complementar</p>
+                        </div>
+
+                        <span class="category-arrow">→</span>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- PRODUCTS -->
+        <!-- PRODUCTS (DESTAQUES NA HOME) -->
+        <section class="products section" id="produtos">
+            <div class="container">
+
+                <div class="section-heading">
+                    <div>
+                        <span class="section-label">NOSSO CATÁLOGO</span>
+                        <h2>Produtos em destaque</h2>
+                    </div>
+                    <div>
+                        <a href="catalogo.html" class="btn btn-primary"
+                            style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none;">
+                            Veja agora todos os nossos produtos
+                            <span>→</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- GRADE DE PRODUTOS EM DESTAQUE NA HOME -->
+                <div class="products-grid" id="productsGrid">
+
+                    <!-- PRODUTO 1 -->
+                    <article class="product-card" data-category="baterias" data-name="Cartela Bateria 364">
+                        <div class="product-image">
+                            <span class="product-tag">Destaque</span>
+                            <div class="product-placeholder battery-product"><span>364</span></div>
+                            <button class="quick-add" data-id="1" title="Adicionar">+</button>
+                        </div>
+                        <div class="product-info">
+                            <span class="product-category">Baterias</span>
+                            <h3>Cartela Bateria 364</h3>
+                            <p class="product-description">Bateria para relógios e pequenos eletrônicos.</p>
+                            <div class="product-bottom">
+                                <div class="price-container">
+                                    <div class="price-type">
+                                        <small>Varejo</small>
+                                        <div class="price-box">
+                                            <span class="price-card">Cartão: R$ 25,00</span>
+                                            <span class="price-pix">Pix: <strong>R$ 15,00</strong></span>
+                                        </div>
+                                    </div>
+                                    <div class="price-type">
+                                        <small>Atacado (5+ un)</small>
+                                        <div class="price-box">
+                                            <span class="price-card">Cartão: R$ 9,00</span>
+                                            <span class="price-pix">Pix: <strong>R$ 8,00</strong></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="add-cart" data-id="1">Comprar</button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- PRODUTO 2 -->
+                    <article class="product-card" data-category="baterias" data-name="Cartela Bateria 377">
+                        <div class="product-image">
+                            <div class="product-placeholder battery-product"><span>377</span></div>
+                            <button class="quick-add" data-id="2" title="Adicionar">+</button>
+                        </div>
+                        <div class="product-info">
+                            <span class="product-category">Baterias</span>
+                            <h3>Cartela Bateria 377</h3>
+                            <p class="product-description">Bateria de alta qualidade para relógios.</p>
+                            <div class="product-bottom">
+                                <div class="price-container">
+                                    <div class="price-type">
+                                        <small>Varejo</small>
+                                        <div class="price-box">
+                                            <span class="price-card">Cartão: R$ 25,00</span>
+                                            <span class="price-pix">Pix: <strong>R$ 15,00</strong></span>
+                                        </div>
+                                    </div>
+                                    <div class="price-type">
+                                        <small>Atacado (5+ un)</small>
+                                        <div class="price-box">
+                                            <span class="price-card">Cartão: R$ 9,00</span>
+                                            <span class="price-pix">Pix: <strong>R$ 8,00</strong></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="add-cart" data-id="2">Comprar</button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- PRODUTO 3 -->
+                    <article class="product-card" data-category="pilhas" data-name="Pilha AAA">
+                        <div class="product-image">
+                            <div class="product-placeholder aa-product"><span>AAA</span></div>
+                            <button class="quick-add" data-id="7" title="Adicionar">+</button>
+                        </div>
+                        <div class="product-info">
+                            <span class="product-category">Pilhas</span>
+                            <h3>Pilha AAA</h3>
+                            <p class="product-description">Pilha AAA com alta durabilidade.</p>
+                            <div class="product-bottom">
+                                <div class="price-container">
+                                    <div class="price-type">
+                                        <small>Varejo</small>
+                                        <div class="price-box">
+                                            <span class="price-card">Cartão: R$ 5,00</span>
+                                            <span class="price-pix">Pix: <strong>R$ 4,00</strong></span>
+                                        </div>
+                                    </div>
+                                    <div class="price-type">
+                                        <small>Atacado (5+ un)</small>
+                                        <div class="price-box">
+                                            <span class="price-card">Cartão: R$ 3,00</span>
+                                            <span class="price-pix">Pix: <strong>R$ 2,50</strong></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="add-cart" data-id="7">Comprar</button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- PRODUTO 4 -->
+                    <article class="product-card" data-category="pilhas" data-name="Pilha AA">
+                        <div class="product-image">
+                            <div class="product-placeholder aa-product"><span>AA</span></div>
+                            <button class="quick-add" data-id="8" title="Adicionar">+</button>
+                        </div>
+                        <div class="product-info">
+                            <span class="product-category">Pilhas</span>
+                            <h3>Pilha AA</h3>
+                            <p class="product-description">Pilha AA para controles e portões.</p>
+                            <div class="product-bottom">
+                                <div class="price-container">
+                                    <div class="price-type">
+                                        <small>Varejo</small>
+                                        <div class="price-box">
+                                            <span class="price-card">Cartão: R$ 5,00</span>
+                                            <span class="price-pix">Pix: <strong>R$ 4,00</strong></span>
+                                        </div>
+                                    </div>
+                                    <div class="price-type">
+                                        <small>Atacado (5+ un)</small>
+                                        <div class="price-box">
+                                            <span class="price-card">Cartão: R$ 3,00</span>
+                                            <span class="price-pix">Pix: <strong>R$ 2,50</strong></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="add-cart" data-id="8">Comprar</button>
+                            </div>
+                        </div>
+                    </article>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ONDE ESTAMOS / LOCALIZAÇÃO -->
+        <section class="location section" id="onde-estamos" style="background-color: #f9fafb; padding: 60px 0;">
+            <div class="container">
+
+                <div class="section-heading" style="text-align: center; margin-bottom: 40px;">
+                    <span class="section-label">VENHA NOS VISITAR</span>
+                    <h2>Onde Estamos</h2>
+                    <p style="color: #6b7280; margin-top: 8px;">
+                        Rua dos Andradas, Nº 29, Sobreloja 201 - Centro, Rio de Janeiro - RJ
+                    </p>
+                </div>
+
+                <!-- Grid: Mapa do Google à esquerda e Fotos da Loja à direita -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center;"
+                    class="location-grid">
+
+                    <!-- Google Maps Iframe -->
+                    <div
+                        style="border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); height: 350px;">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3675.246164392535!2d-43.1841864237783!3d-22.904289537783594!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x997f79ed0609f3%3A0x3d5760273626224!2sA3MS%20BATERIAS%20E%20REL%C3%93GIOS!5e0!3m2!1spt-BR!2sbr!4v1787143854769!5m2!1spt-BR!2sbr"
+                            width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                            referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                    </div>
+
+                    <!-- Fotos da Loja (Substitua os links das imagens pelas fotos reais da sua loja) -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; height: 350px;">
+                        <div
+                            style="background: #e5e7eb; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #4b5563; font-weight: 600; overflow: hidden; position: relative;">
+                            <!-- Exemplo com placeholder, troque por <img src="sua-foto-1.jpg" style="width:100%; height:100%; object-fit:cover;"> -->
+                            <div style="text-align: center; padding: 10px;">
+                                <span>📷 Foto da Fachada / Vitrine</span>
+                            </div>
+                        </div>
+                        <div
+                            style="background: #e5e7eb; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #4b5563; font-weight: 600; overflow: hidden; position: relative;">
+                            <div style="text-align: center; padding: 10px;">
+                                <span>📷 Foto do Interior / Balcão</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- WHOLESALE -->
+        <section class="wholesale section" id="atacado">
+
+            <div class="container">
+
+                <div class="wholesale-box">
+
+                    <div class="wholesale-content">
+
+                        <span class="section-label light">
+                            PARA LOJISTAS E REVENDEDORES
+                        </span>
+
+                        <h2>
+                            Precisa comprar em
+                            <span>quantidade?</span>
+                        </h2>
+
+                        <p>
+                            Trabalhamos com vendas no atacado de baterias,
+                            pilhas, relógios e acessórios. Fale diretamente
+                            com nossa equipe e solicite seu orçamento.
+                        </p>
+
+                        <div class="wholesale-features">
+
+                            <div>
+                                <strong>✓</strong>
+                                Preços especiais para atacado
+                            </div>
+
+                            <div>
+                                <strong>✓</strong>
+                                Grande variedade de produtos
+                            </div>
+
+                            <div>
+                                <strong>✓</strong>
+                                Atendimento personalizado
+                            </div>
+
+                        </div>
+
+                        <a href="https://wa.me/5521990440544?text=Olá!%20Gostaria%20de%20fazer%20um%20orçamento%20no%20atacado."
+                            target="_blank" class="btn whatsapp-btn">
+                            <span>◉</span>
+                            Solicitar orçamento no WhatsApp
+                        </a>
+
+                    </div>
+
+
+                    <div class="wholesale-visual">
+
+                        <div class="wholesale-circle">
+
+                            <div class="mini-battery">🔋</div>
+                            <div class="mini-watch">⌚</div>
+                            <div class="mini-battery two">⚡</div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- CTA -->
+        <section class="cta section">
+
+            <div class="container">
+
+                <div class="cta-box">
+
+                    <div>
+                        <span class="section-label">A3MS BATERIAS & RELÓGIOS</span>
+                        <h2>Precisou de bateria?</h2>
+                        <p>
+                            Encontre o produto ideal para você.
+                        </p>
+                    </div>
+
+                    <a href="#produtos" class="btn btn-primary">
+                        Ver produtos →
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+    <footer class="footer">
+
+        <div class="container footer-grid">
+
+            <div class="footer-brand">
+
+                <a href="#" class="logo footer-logo">
+
+                    <div class="logo-icon">A3</div>
+
+                    <div>
+                        <strong>A3MS</strong>
+                        <span>Baterias & Relógios</span>
+                    </div>
+
+                </a>
+
+                <p>
+                    Qualidade, variedade e confiança
+                    para você e seu negócio.
+                </p>
+
+                <div class="socials">
+                    <a href="https://instagram.com/A3MSBATERIAS_RELOGIOS" target="_blank" aria-label="Instagram">◎</a>
+                    <a href="#" aria-label="Facebook">f</a>
+                    <a href="https://wa.me/5521990440544" target="_blank" aria-label="WhatsApp">◉</a>
+                </div>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h3>Loja</h3>
+
+                <a href="#produtos">Produtos</a>
+                <a href="#categorias">Categorias</a>
+                <a href="#atacado">Atacado</a>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h3>Atendimento</h3>
+
+                <a href="https://wa.me/5521990440544" target="_blank">Fale conosco</a>
+                <a href="#">Política de privacidade</a>
+                <a href="#">Termos de uso</a>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h3>Contato & Endereço</h3>
+
+                <span>📱 (21) 99044-0544</span>
+                <span>📍 Rua dos Andradas, Nº 29, S/L 201</span>
+                <span>Centro - Rio de Janeiro - RJ</span>
+                <span>CEP: 20051-001</span>
+                <small style="display: block; margin-top: 8px; color: #9ca3af; font-size: 11px;">
+                    CNPJ: 66.488.256/0001-06<br>
+                    I.E.: 16.320.790
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <div class="container">
+
+                <p>
+                    © 2026 A3MS Baterias & Relógios. Todos os direitos reservados.
+                </p>
+
+                <p>
+                    Desenvolvido com tecnologia A3MS
+                </p>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <!-- CART SIDEBAR -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+
+    <aside class="cart-sidebar" id="cartSidebar">
+
+        <div class="cart-header">
+
+            <div>
+                <span class="section-label">SEU PEDIDO</span>
+                <h2>Carrinho</h2>
+            </div>
+
+            <button id="closeCart" class="close-cart">
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="cart-items" id="cartItems">
+
+            <div class="empty-cart">
+
+                <div class="empty-cart-icon">
+                    🛒
+                </div>
+
+                <h3>Seu carrinho está vazio</h3>
+
+                <p>
+                    Adicione produtos para começar sua compra.
+                </p>
+
+                <button class="btn btn-primary" id="continueShopping">
+                    Continuar comprando
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="cart-footer">
+
+            <!-- SELEÇÃO DE PAGAMENTO -->
+            <div id="paymentSelectionContainer" style="margin-bottom: 12px; display: none;">
+                <p style="font-size: 12px; font-weight: 600; margin-bottom: 6px; color: #374151;">Forma de pagamento:
+                </p>
+                <div style="display: flex; gap: 8px;">
+                    <button type="button" id="payPixBtn" onclick="setPaymentMethod('pix')"
+                        style="flex: 1; padding: 8px; font-size: 12px; font-weight: 600; border: 1px solid #d1d5db; border-radius: 6px; background: #f3f4f6; color: #374151; cursor: pointer; transition: 0.2s;">
+                        Pix / Dinheiro
+                    </button>
+                    <button type="button" id="payCardBtn" onclick="setPaymentMethod('cartao')"
+                        style="flex: 1; padding: 8px; font-size: 12px; font-weight: 600; border: 1px solid #d1d5db; border-radius: 6px; background: #f3f4f6; color: #374151; cursor: pointer; transition: 0.2s;">
+                        Cartão
+                    </button>
+                </div>
+            </div>
+
+            <div class="cart-total">
+
+                <span>Total</span>
+
+                <strong id="cartTotal">
+                    R$ 0,00
+                </strong>
+
+            </div>
+
+            <button class="checkout-btn" id="checkoutButton">
+                Finalizar no WhatsApp
+            </button>
+
+            <small>
+                O pedido será enviado para confirmação.
+            </small>
+
+        </div>
+
+    </aside>
+
+
+    <!-- WHATSAPP FLOAT -->
+    <a href="https://wa.me/5521990440544" target="_blank" class="whatsapp-float" aria-label="Falar no WhatsApp">
+        <span>◉</span>
+    </a>
+
+
+    <!-- TOAST -->
+    <div class="toast" id="toast">
+        <span>✓</span>
+        <p>Produto adicionado ao carrinho!</p>
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

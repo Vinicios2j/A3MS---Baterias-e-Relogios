@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Catálogo Geral - A3MS Baterias e Relógios">
+    <meta name="theme-color" content="#16a34a">
+
+    <title>Catálogo Geral - A3MS Baterias & Relógios</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="container header-content">
+
+            <a href="index.html" class="logo">
+                <div class="logo-icon">A3</div>
+                <div>
+                    <strong>A3MS</strong>
+                    <span>Catálogo Geral</span>
+                </div>
+            </a>
+
+            <nav class="nav">
+                <a href="index.html">Voltar ao Início</a>
+                <a href="#produtos">Produtos</a>
+            </nav>
+
+            <div class="header-actions">
+                <button class="cart-button" id="openCart">
+                    🛒
+                    <span class="cart-count" id="cartCount">0</span>
+                </button>
+            </div>
+
+        </div>
+    </header>
+
+    <main id="produtos" style="padding-top: 100px;">
+
+        <!-- SEÇÃO DE CATÁLOGO COM BARRA DE PESQUISA -->
+        <section class="products section">
+
+            <div class="container">
+
+                <div class="section-heading" style="flex-direction: column; align-items: flex-start; gap: 20px;">
+                    
+                    <div>
+                        <span class="section-label">TODO O NOSSO ESTOQUE</span>
+                        <h2>Catálogo Geral de Produtos</h2>
+                        <p style="color: #6b7280; font-size: 14px; margin-top: 4px;">
+                            Leve 5 unidades ou mais (misturadas ou iguais) e ganhe preço de atacado em tudo!
+                        </p>
+                    </div>
+
+                    <!-- BARRA DE PESQUISA DIRETA NO TOPO DO CATÁLOGO -->
+                    <div style="width: 100%; max-width: 500px; position: relative;">
+                        <input type="text" id="catalogoSearch" placeholder="🔍 Pesquisar produto pelo nome..." 
+                            style="width: 100%; padding: 12px 16px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; outline: none; background: #fff;"
+                            autocomplete="off">
+                    </div>
+
+                    <!-- FILTROS DE CATEGORIA -->
+                    <div class="product-filters">
+                        <button class="filter active" data-filter="todos">Todos</button>
+                        <button class="filter" data-filter="baterias">Baterias</button>
+                        <button class="filter" data-filter="pilhas">Pilhas</button>
+                        <button class="filter" data-filter="relogios">Relógios</button>
+                        <button class="filter" data-filter="acessorios">Acessórios</button>
+                    </div>
+
+                </div>
+
+
+                <!-- =======================================================
+                     LISTA DE PRODUTOS CADASTRADOS MANUALMENTE
+                     (Para adicionar novos, basta duplicar o <article class="product-card">)
+                ======================================================== -->
+                <div class="products-grid" id="productsGrid">
+
+                    <!-- PRODUTO 1 -->
+                    <article class="product-card" data-category="baterias" data-name="Cartela Bateria 364">
+                        <div class="product-image">
+                            <span class="product-tag">Destaque</span>
+                            <div class="product-placeholder battery-product"><span>364</span></div>
+                            <button class="quick-add" data-id="1" title="Adicionar">+</button>
+                        </div>
+                        <div class="product-info">
+                            <span class="product-category">Baterias</span>
+                            <h3>Cartela Bateria 364</h3>
+                            <p class="product-description">Bateria para relógios e pequenos eletrônicos.</p>
+                            <div class="product-bottom">
+                                <div class="price-container">
+                                    <div class="price-type">
+                                        <small>Varejo</small>
+                                        <div class="price-box">
+                                            <span class="price-card">Cartão: R$ 25,00</span>
+                                            <span class="price-pix">Pix: <strong>R$ 15,00</strong></span>
+                                        </div>
+                                    </div>
+                                    <div class="price-type">
+                                        <small>Atacado (5+ un)</small>
+                                        <div class="price-box">
+                                            <span class="price-card">Cartão: R$ 9,00</span>
+                                            <span class="price-pix">Pix: <strong>R$ 8,00</strong></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="add-cart" data-id="1">Comprar</button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- PRODUTO 2 -->
+                    <article class="product-card" data-category="baterias" data-name="Cartela Bateria 377">
+                        <div class="product-image">
+                            <div class="product-placeholder battery-product"><span>377</span></div>
+                            <button class="quick-add" data-id="2" title="Adicionar">+</button>
+                        </div>
+                        <div class="product-info">
+                            <span class="product-category">Baterias</span>
+                            <h3>Cartela Bateria 377</h3>
+                            <p class="product-description">Bateria de alta qualidade para relógios.</p>
+                            <div class="product-bottom">
+                                <div class="price-container">
+                                    <div class="price-type">
+                                        <small>Varejo</small>
+                                        <div class="price-box">
+                                            <span class="price-card">Cartão: R$ 25,00</span>
+                                            <span class="price-pix">Pix: <strong>R$ 15,00</strong></span>
+                                        </div>
+                                    </div>
+                                    <div class="price-type">
+                                        <small>Atacado (5+ un)</small>
+                                        <div class="price-box">
+                                            <span class="price-card">Cartão: R$ 9,00</span>
+                                            <span class="price-pix">Pix: <strong>R$ 8,00</strong></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="add-cart" data-id="2">Comprar</button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- PRODUTO 3 -->
+                    <article class="product-card" data-category="pilhas" data-name="Pilha AAA">
+                        <div class="product-image">
+                            <div class="product-placeholder aa-product"><span>AAA</span></div>
+                            <button class="quick-add" data-id="7" title="Adicionar">+</button>
+                        </div>
+                        <div class="product-info">
+                            <span class="product-category">Pilhas</span>
+                            <h3>Pilha AAA</h3>
+                            <p class="product-description">Pilha AAA com alta durabilidade.</p>
+                            <div class="product-bottom">
+                                <div class="price-container">
+                                    <div class="price-type">
+                                        <small>Varejo</small>
+                                        <div class="price-box">
+                                            <span class="price-card">Cartão: R$ 5,00</span>
+                                            <span class="price-pix">Pix: <strong>R$ 4,00</strong></span>
+                                        </div>
+                                    </div>
+                                    <div class="price-type">
+                                        <small>Atacado (5+ un)</small>
+                                        <div class="price-box">
+                                            <span class="price-card">Cartão: R$ 3,00</span>
+                                            <span class="price-pix">Pix: <strong>R$ 2,50</strong></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="add-cart" data-id="7">Comprar</button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- PRODUTO 4 -->
+                    <article class="product-card" data-category="pilhas" data-name="Pilha AA">
+                        <div class="product-image">
+                            <div class="product-placeholder aa-product"><span>AA</span></div>
+                            <button class="quick-add" data-id="8" title="Adicionar">+</button>
+                        </div>
+                        <div class="product-info">
+                            <span class="product-category">Pilhas</span>
+                            <h3>Pilha AA</h3>
+                            <p class="product-description">Pilha AA para controles e portões.</p>
+                            <div class="product-bottom">
+                                <div class="price-container">
+                                    <div class="price-type">
+                                        <small>Varejo</small>
+                                        <div class="price-box">
+                                            <span class="price-card">Cartão: R$ 5,00</span>
+                                            <span class="price-pix">Pix: <strong>R$ 4,00</strong></span>
+                                        </div>
+                                    </div>
+                                    <div class="price-type">
+                                        <small>Atacado (5+ un)</small>
+                                        <div class="price-box">
+                                            <span class="price-card">Cartão: R$ 3,00</span>
+                                            <span class="price-pix">Pix: <strong>R$ 2,50</strong></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="add-cart" data-id="8">Comprar</button>
+                            </div>
+                        </div>
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+
+        <div class="container footer-grid">
+
+            <div class="footer-brand">
+
+                <a href="#" class="logo footer-logo">
+
+                    <div class="logo-icon">A3</div>
+
+                    <div>
+                        <strong>A3MS</strong>
+                        <span>Baterias & Relógios</span>
+                    </div>
+
+                </a>
+
+                <p>
+                    Qualidade, variedade e confiança
+                    para você e seu negócio.
+                </p>
+
+                <div class="socials">
+                    <a href="https://instagram.com/A3MSBATERIAS_RELOGIOS" target="_blank" aria-label="Instagram">◎</a>
+                    <a href="#" aria-label="Facebook">f</a>
+                    <a href="https://wa.me/5521990440544" target="_blank" aria-label="WhatsApp">◉</a>
+                </div>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h3>Loja</h3>
+
+                <a href="#produtos">Produtos</a>
+                <a href="#categorias">Categorias</a>
+                <a href="#atacado">Atacado</a>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h3>Atendimento</h3>
+
+                <a href="https://wa.me/5521990440544" target="_blank">Fale conosco</a>
+                <a href="#">Política de privacidade</a>
+                <a href="#">Termos de uso</a>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h3>Contato & Endereço</h3>
+
+                <span>📱 (21) 99044-0544</span>
+                <span>📍 Rua dos Andradas, Nº 29, S/L 201</span>
+                <span>Centro - Rio de Janeiro - RJ</span>
+                <span>CEP: 20051-001</span>
+                <small style="display: block; margin-top: 8px; color: #9ca3af; font-size: 11px;">
+                    CNPJ: 66.488.256/0001-06<br>
+                    I.E.: 16.320.790
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <div class="container">
+
+                <p>
+                    © 2026 A3MS Baterias & Relógios. Todos os direitos reservados.
+                </p>
+
+                <p>
+                    Desenvolvido com tecnologia A3MS
+                </p>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+    <!-- CART SIDEBAR -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <aside class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <div>
+                <span class="section-label">SEU PEDIDO</span>
+                <h2>Carrinho</h2>
+            </div>
+            <button id="closeCart" class="close-cart">×</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <div class="empty-cart">
+                <div class="empty-cart-icon">🛒</div>
+                <h3>Seu carrinho está vazio</h3>
+                <p>Adicione produtos para começar sua compra.</p>
+                <button class="btn btn-primary" id="continueShopping">Continuar comprando</button>
+            </div>
+        </div>
+        <div class="cart-footer">
+            <div id="paymentSelectionContainer" style="margin-bottom: 12px; display: none;">
+                <p style="font-size: 12px; font-weight: 600; margin-bottom: 6px; color: #374151;">Forma de pagamento:</p>
+                <div style="display: flex; gap: 8px;">
+                    <button type="button" id="payPixBtn" onclick="setPaymentMethod('pix')" style="flex: 1; padding: 8px; font-size: 12px; font-weight: 600; border: 1px solid #d1d5db; border-radius: 6px; background: #f3f4f6; color: #374151; cursor: pointer;">Pix / Dinheiro</button>
+                    <button type="button" id="payCardBtn" onclick="setPaymentMethod('cartao')" style="flex: 1; padding: 8px; font-size: 12px; font-weight: 600; border: 1px solid #d1d5db; border-radius: 6px; background: #f3f4f6; color: #374151; cursor: pointer;">Cartão</button>
+                </div>
+            </div>
+            <div class="cart-total">
+                <span>Total</span>
+                <strong id="cartTotal">R$ 0,00</strong>
+            </div>
+            <button class="checkout-btn" id="checkoutButton">Finalizar no WhatsApp</button>
+        </div>
+    </aside>
+
+    <div class="toast" id="toast">
+        <span>✓</span>
+        <p>Produto adicionado ao carrinho!</p>
+    </div>
+
+    <!-- SCRIPT PRINCIPAL E SCRIPT ESPECÍFICO DE BUSCA DO CATÁLOGO -->
+    <script src="script.js"></script>
+    <script>
+        // Script exclusivo para a barra de pesquisa do catálogo funcionar instantaneamente ao digitar
+        const catalogoSearch = document.getElementById('catalogoSearch');
+        if (catalogoSearch) {
+            catalogoSearch.addEventListener('input', (e) => {
+                const termo = e.target.value.toLowerCase().trim();
+                const cards = document.querySelectorAll('#productsGrid .product-card');
+
+                cards.forEach(card => {
+                    const nome = card.getAttribute('data-name').toLowerCase();
+                    const descricao = card.querySelector('.product-description').textContent.toLowerCase();
+                    
+                    if (nome.includes(termo) || descricao.includes(termo)) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        }
+    </script>
+
+</body>
+</html>
