@@ -1,129 +1,9 @@
 /* =========================================
-   A3MS - SCRIPT.JS DEFINITIVO (CORRIGIDO)
-   Sistema de atacado/varejo automático (>= 5 un)
+   A3MS - SCRIPT.JS DINÂMICO (API WIO.DB)
+   Mantém todas as funções originais + produtos da API
 ========================================= */
 
-/* =========================================
-   PRODUTOS (IDs ÚNICOS)
-========================================= */
-
-const products = [
-    {
-        id: 1,
-        name: "Cartela Bateria 364",
-        category: "Baterias",
-        image: "fotosProdutos/364.png", // <--- Atualizado com a pasta
-        wholesaleCard: 9.00,
-        wholesalePix: 8.00,
-        retailCard: 25.00,
-        retailPix: 15.00,
-        icon: "🔋"
-    },
-    {
-        id: 2,
-        name: "Cartela Bateria 377",
-        category: "Baterias",
-        image: "fotosProdutos/377.png",
-        wholesaleCard: 9.00,
-        wholesalePix: 8.00,
-        retailCard: 25.00,
-        retailPix: 15.00,
-        icon: "🔋"
-    },
-    {
-        id: 3,
-        name: "Pilha DuraCell aaa",
-        category: "Baterias",
-        image: "395.jpg",
-        wholesaleCard: 10.00,
-        wholesalePix: 9.00,
-        retailCard: 28.00,
-        retailPix: 18.00,
-        icon: "🔋"
-    },
-    {
-        id: 4,
-        name: "Cartela Bateria 2032",
-        category: "Baterias",
-        image: "2032.jpg",
-        wholesaleCard: 5.00,
-        wholesalePix: 4.00,
-        retailCard: 10.00,
-        retailPix: 7.00,
-        icon: "🔋"
-    },
-    {
-        id: 5,
-        name: "Cartela Bateria 2025",
-        category: "Baterias",
-        image: "2025.jpg",
-        wholesaleCard: 5.00,
-        wholesalePix: 4.00,
-        retailCard: 10.00,
-        retailPix: 7.00,
-        icon: "🔋"
-    },
-    {
-        id: 6,
-        name: "Cartela Bateria 2016",
-        category: "Baterias",
-        image: "2016.jpg",
-        wholesaleCard: 5.00,
-        wholesalePix: 4.00,
-        retailCard: 10.00,
-        retailPix: 7.00,
-        icon: "🔋"
-    },
-    {
-        id: 7,
-        name: "Pilha AAA",
-        category: "Pilhas",
-        image: "aaa.jpg",
-        wholesaleCard: 3.00,
-        wholesalePix: 2.50,
-        retailCard: 5.00,
-        retailPix: 4.00,
-        icon: "⚡"
-    },
-    {
-        id: 8,
-        name: "Pilha AA",
-        category: "Pilhas",
-        image: "aa.jpg",
-        wholesaleCard: 3.00,
-        wholesalePix: 2.50,
-        retailCard: 5.00,
-        retailPix: 4.00,
-        icon: "⚡"
-    },
-    {
-        id: 9,
-        name: "Relógio A3MS Clássico",
-        category: "Relógios",
-        image: "relogio-classico.jpg",
-        wholesaleCard: 35.00,
-        wholesalePix: 30.00,
-        retailCard: 69.90,
-        retailPix: 59.90,
-        icon: "⌚"
-    },
-    {
-        id: 10,
-        name: "Pulseira para Relógio",
-        category: "Acessórios",
-        image: "pulseira.jpg",
-        wholesaleCard: 10.00,
-        wholesalePix: 8.00,
-        retailCard: 20.00,
-        retailPix: 15.00,
-        icon: "⌚"
-    }
-];
-
-/* =========================================
-   CARRINHO
-========================================= */
-
+let products = []; // Array que receberá os dados da API
 let cart = JSON.parse(localStorage.getItem("a3ms_cart")) || [];
 
 /* =========================================
@@ -173,6 +53,68 @@ function closeCart() {
 }
 
 /* =========================================
+   BUSCAR PRODUTOS DA API E RENDERIZAR NA HOME
+========================================= */
+
+async function fetchAndRenderProducts() {
+    try {
+        const response = await fetch('http://localhost:3000/api/products');
+        if (!response.ok) throw new Error("Erro ao buscar produtos da API");
+        
+        products = await response.json();
+        renderProductCards(products);
+    } catch (error) {
+        console.error("Erro:", error);
+        const grid = document.getElementById("productsGrid");
+        if (grid) {
+            grid.innerHTML = `<p style="text-align:center; color:red; grid-column: 1/-1;">Erro ao carregar os produtos do servidor. Verifique se a API está rodando.</p>`;
+        }
+    }
+}
+
+function renderProductCards(productsList) {
+    const grid = document.getElementById("productsGrid");
+    if (!grid) return;
+
+    if (productsList.length === 0) {
+        grid.innerHTML = `<p style="text-align:center; grid-column: 1/-1;">Nenhum produto cadastrado no momento.</p>`;
+        return;
+    }
+
+    grid.innerHTML = productsList.map(product => `
+        <article class="product-card" data-category="${product.category.toLowerCase()}" data-name="${product.name}">
+            <div class="product-image" style="position: relative; overflow: hidden; height: 200px; background: #f3f4f6;">
+                <img src="${product.image}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: cover; display: block;" onerror="this.src='https://via.placeholder.com/200?text=A3MS'">
+                <button class="quick-add" data-id="${product.id}" title="Adicionar Rápido">+</button>
+            </div>
+            <div class="product-info">
+                <span class="product-category">${product.category}</span>
+                <h3>${product.name}</h3>
+                <div class="product-bottom">
+                    <div class="price-container">
+                        <div class="price-type">
+                            <small>Varejo</small>
+                            <div class="price-box">
+                                <span class="price-card">Cartão: ${formatPrice(product.retailCard)}</span>
+                                <span class="price-pix">Pix: <strong>${formatPrice(product.retailPix)}</strong></span>
+                            </div>
+                        </div>
+                        <div class="price-type">
+                            <small>Atacado (5+ un)</small>
+                            <div class="price-box">
+                                <span class="price-card">Cartão: ${formatPrice(product.wholesaleCard)}</span>
+                                <span class="price-pix">Pix: <strong>${formatPrice(product.wholesalePix)}</strong></span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="add-cart" data-id="${product.id}">Comprar</button>
+                </div>
+            </div>
+        </article>
+    `).join("");
+}
+
+/* =========================================
    ADICIONAR AO CARRINHO
 ========================================= */
 
@@ -194,7 +136,7 @@ function addToCart(id) {
             id: product.id,
             name: product.name,
             category: product.category,
-            icon: product.icon,
+            icon: "📦",
             quantity: 1,
             retailPix: product.retailPix,
             retailCard: product.retailCard,
@@ -236,7 +178,7 @@ function changeQuantity(id, amount) {
 let selectedPaymentMethod = null;
 
 /* =========================================
-   ATUALIZAR CARRINHO E APLICAR ATACADO GERAL (TOTAL >= 5)
+   ATUALIZAR CARRINHO E ATACADO GERAL (>= 5)
 ========================================= */
 
 function updateCart() {
@@ -255,68 +197,74 @@ function updateCart() {
         return total + (activePrice * item.quantity);
     }, 0);
 
-    cartCount.textContent = totalItems;
-    cartTotal.textContent = formatPrice(totalPrice);
+    if (cartCount) cartCount.textContent = totalItems;
+    if (cartTotal) cartTotal.textContent = formatPrice(totalPrice);
 
     if (cart.length === 0) {
-        cartItems.innerHTML = `
-            <div class="empty-cart">
-                <div class="empty-cart-icon">🛒</div>
-                <h3>Seu carrinho está vazio</h3>
-                <p>Adicione produtos para começar sua compra.</p>
-                <button class="btn btn-primary" id="continueShopping">Continuar comprando</button>
-            </div>
-        `;
-        const continueButton = document.getElementById("continueShopping");
-        if (continueButton) continueButton.addEventListener("click", closeCart);
+        if (cartItems) {
+            cartItems.innerHTML = `
+                <div class="empty-cart">
+                    <div class="empty-cart-icon">🛒</div>
+                    <h3>Seu carrinho está vazio</h3>
+                    <p>Adicione produtos para começar sua compra.</p>
+                    <button class="btn btn-primary" id="continueShopping">Continuar comprando</button>
+                </div>
+            `;
+            const continueButton = document.getElementById("continueShopping");
+            if (continueButton) continueButton.addEventListener("click", closeCart);
+        }
         
-        document.getElementById("paymentSelectionContainer").style.display = "none";
+        const paymentContainer = document.getElementById("paymentSelectionContainer");
+        if (paymentContainer) paymentContainer.style.display = "none";
         return;
     }
 
-    document.getElementById("paymentSelectionContainer").style.display = "block";
+    const paymentContainer = document.getElementById("paymentSelectionContainer");
+    if (paymentContainer) paymentContainer.style.display = "block";
 
-    cartItems.innerHTML = cart.map(item => {
-        let activePrice;
-        if (paymentMode === 'cartao') {
-            activePrice = isGlobalWholesale ? item.wholesaleCard : item.retailCard;
-        } else {
-            activePrice = isGlobalWholesale ? item.wholesalePix : item.retailPix;
-        }
+    if (cartItems) {
+        cartItems.innerHTML = cart.map(item => {
+            let activePrice;
+            if (paymentMode === 'cartao') {
+                activePrice = isGlobalWholesale ? item.wholesaleCard : item.retailCard;
+            } else {
+                activePrice = isGlobalWholesale ? item.wholesalePix : item.retailPix;
+            }
 
-        const itemSubtotal = activePrice * item.quantity;
-        const itensFaltantesParaAtacado = Math.max(0, 5 - totalItems);
+            const itemSubtotal = activePrice * item.quantity;
+            const itensFaltantesParaAtacado = Math.max(0, 5 - totalItems);
 
-        return `
-            <div class="cart-item">
-                <div class="cart-item-image">${item.icon}</div>
-                <div class="cart-item-info">
-                    <h4>${item.name}</h4>
-                    <p>${formatPrice(activePrice)} un (${paymentMode === 'cartao' ? 'Cartão' : 'Pix/Dinheiro'})</p>
-                    
-                    ${isGlobalWholesale ? `
-                        <div style="background: #dcfce7; color: #166534; font-size: 9px; font-weight: 700; padding: 3px 6px; border-radius: 4px; margin: 4px 0; display: inline-block;">
-                            🔥 Atacado Geral Ativado! (5+ un)
+            return `
+                <div class="cart-item">
+                    <div class="cart-item-image">${item.icon}</div>
+                    <div class="cart-item-info">
+                        <h4>${item.name}</h4>
+                        <p>${formatPrice(activePrice)} un (${paymentMode === 'cartao' ? 'Cartão' : 'Pix/Dinheiro'})</p>
+                        
+                        ${isGlobalWholesale ? `
+                            <div style="background: #dcfce7; color: #166534; font-size: 9px; font-weight: 700; padding: 3px 6px; border-radius: 4px; margin: 4px 0; display: inline-block;">
+                                🔥 Atacado Geral Ativado! (5+ un)
+                            </div>
+                        ` : `
+                            <p style="font-size: 9px; color: #6b7280; margin-top: 2px;">
+                                Faltam ${itensFaltantesParaAtacado} un para o Atacado em tudo!
+                            </p>
+                        `}
+
+                        <div class="quantity-controls">
+                            <button onclick="changeQuantity(${item.id}, -1)">−</button>
+                            <span>${item.quantity}</span>
+                            <button onclick="changeQuantity(${item.id}, 1)">+</button>
                         </div>
-                    ` : `
-                        <p style="font-size: 9px; color: #6b7280; margin-top: 2px;">
-                            Faltam ${itensFaltantesParaAtacado} un para o Atacado em tudo!
-                        </p>
-                    `}
-
-                    <div class="quantity-controls">
-                        <button onclick="changeQuantity(${item.id}, -1)">−</button>
-                        <span>${item.quantity}</span>
-                        <button onclick="changeQuantity(${item.id}, 1)">+</button>
+                    </div>
+                    <div style="text-align: right; display: flex; flex-direction: column; justify-content: space-between;">
+                        <strong style="font-size: 12px;">${formatPrice(itemSubtotal)}</strong>
+                        <button class="remove-item" onclick="removeFromCart(${item.id})">Remover</button>
                     </div>
                 </div>
-                <div style="text-align: right; display: flex; flex-direction: column; justify-content: space-between;">
-                    <strong style="font-size: 12px;">${formatPrice(itemSubtotal)}</strong>
-                    <button class="remove-item" onclick="removeFromCart(${item.id})">Remover</button>
-                </div>
-            </div>
-        `;
-    }).join("");
+            `;
+        }).join("");
+    }
 }
 
 /* =========================================
@@ -328,6 +276,8 @@ function setPaymentMethod(method) {
     
     const btnPix = document.getElementById("payPixBtn");
     const btnCartao = document.getElementById("payCardBtn");
+
+    if (!btnPix || !btnCartao) return;
 
     if (method === 'pix') {
         btnPix.style.background = "#16a34a";
@@ -351,63 +301,65 @@ function setPaymentMethod(method) {
 }
 
 /* =========================================
-   CHECKOUT WHATSAPP COM CORREÇÃO DO NaN
+   CHECKOUT WHATSAPP
 ========================================= */
 
-document.getElementById('checkoutButton').addEventListener('click', () => {
-    if (cart.length === 0) {
-        alert("Seu carrinho está vazio!");
-        return;
-    }
-
-    if (!selectedPaymentMethod) {
-        alert("Por favor, selecione a forma de pagamento (Pix/Dinheiro ou Cartão) antes de continuar.");
-        return;
-    }
-
-    const totalItens = cart.reduce((sum, item) => sum + item.quantity, 0);
-    const isGlobalWholesale = totalItens >= 5;
-    const tipoPedido = isGlobalWholesale ? "Atacado" : "Varejo";
-    const formaPagamentoTexto = selectedPaymentMethod === 'pix' ? 'Pix / Dinheiro' : 'Cartão';
-
-    let produtosTexto = "";
-    let valorTotalGeral = 0;
-
-    cart.forEach(item => {
-        produtosTexto += `${item.quantity} x ${item.name}\n`;
-        
-        // Pega o preço correto baseado no tipo de pagamento e regra de atacado
-        let activePrice;
-        if (selectedPaymentMethod === 'cartao') {
-            activePrice = isGlobalWholesale ? item.wholesaleCard : item.retailCard;
-        } else {
-            activePrice = isGlobalWholesale ? item.wholesalePix : item.retailPix;
+const checkoutButton = document.getElementById('checkoutButton');
+if (checkoutButton) {
+    checkoutButton.addEventListener('click', () => {
+        if (cart.length === 0) {
+            alert("Seu carrinho está vazio!");
+            return;
         }
 
-        valorTotalGeral += activePrice * item.quantity;
+        if (!selectedPaymentMethod) {
+            alert("Por favor, selecione a forma de pagamento (Pix/Dinheiro ou Cartão) antes de continuar.");
+            return;
+        }
+
+        const totalItens = cart.reduce((sum, item) => sum + item.quantity, 0);
+        const isGlobalWholesale = totalItens >= 5;
+        const tipoPedido = isGlobalWholesale ? "Atacado" : "Varejo";
+        const formaPagamentoTexto = selectedPaymentMethod === 'pix' ? 'Pix / Dinheiro' : 'Cartão';
+
+        let produtosTexto = "";
+        let valorTotalGeral = 0;
+
+        cart.forEach(item => {
+            produtosTexto += `${item.quantity} x ${item.name}\n`;
+            
+            let activePrice;
+            if (selectedPaymentMethod === 'cartao') {
+                activePrice = isGlobalWholesale ? item.wholesaleCard : item.retailCard;
+            } else {
+                activePrice = isGlobalWholesale ? item.wholesalePix : item.retailPix;
+            }
+
+            valorTotalGeral += activePrice * item.quantity;
+        });
+
+        let mensagem = `Olá, estou solicitando um orçamento no *${tipoPedido}*\n\n`;
+        mensagem += `Produtos:\n${produtosTexto}\n`;
+        mensagem += `Forma de pagamento: *${formaPagamentoTexto}*\n\n`;
+        
+        const totalFormatado = valorTotalGeral.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        mensagem += `Total: *${totalFormatado}*`;
+
+        const mensagemCodificada = encodeURIComponent(mensagem);
+        const numeroWhatsApp = "5521990440544";
+        const urlWhatsApp = `https://api.whatsapp.com/send?phone=${numeroWhatsApp}&text=${mensagemCodificada}`;
+        
+        window.open(urlWhatsApp, '_blank');
     });
-
-    let mensagem = `Olá, estou solicitando um orçamento no *${tipoPedido}*\n\n`;
-    mensagem += `Produtos:\n${produtosTexto}\n`;
-    mensagem += `Forma de pagamento: *${formaPagamentoTexto}*\n\n`;
-    
-    const totalFormatado = valorTotalGeral.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-    mensagem += `Total: *${totalFormatado}*`;
-
-    const mensagemCodificada = encodeURIComponent(mensagem);
-    const numeroWhatsApp = "5521990440544";
-    const urlWhatsApp = `https://api.whatsapp.com/send?phone=${numeroWhatsApp}&text=${mensagemCodificada}`;
-    
-    window.open(urlWhatsApp, '_blank');
-});
+}
 
 /* =========================================
-   EVENTOS DOS BOTÕES DE COMPRA
+   EVENTOS DOS BOTÕES DE COMPRA (DELEGATION)
 ========================================= */
 
-openCartButton.addEventListener("click", openCart);
-closeCartButton.addEventListener("click", closeCart);
-cartOverlay.addEventListener("click", closeCart);
+if (openCartButton) openCartButton.addEventListener("click", openCart);
+if (closeCartButton) closeCartButton.addEventListener("click", closeCart);
+if (cartOverlay) cartOverlay.addEventListener("click", closeCart);
 
 document.addEventListener("click", event => {
     const button = event.target.closest(".add-cart, .quick-add");
@@ -423,16 +375,15 @@ document.addEventListener("click", event => {
    FILTROS, BUSCA E MENU
 ========================================= */
 
-const filters = document.querySelectorAll(".filter");
-const productCards = document.querySelectorAll(".product-card");
+// Delegação de eventos para os filtros (necessário já que os cards vêm dinâmicos da API)
+document.addEventListener("click", event => {
+    const filterBtn = event.target.closest(".filter");
+    if (filterBtn) {
+        document.querySelectorAll(".filter").forEach(item => item.classList.remove("active"));
+        filterBtn.classList.add("active");
+        const selectedCategory = filterBtn.dataset.filter;
 
-filters.forEach(filter => {
-    filter.addEventListener("click", () => {
-        filters.forEach(item => item.classList.remove("active"));
-        filter.classList.add("active");
-        const selectedCategory = filter.dataset.filter;
-
-        productCards.forEach(card => {
+        document.querySelectorAll(".product-card").forEach(card => {
             const cardCategory = card.dataset.category;
             if (selectedCategory === "todos" || cardCategory === selectedCategory) {
                 card.classList.remove("hidden");
@@ -440,7 +391,7 @@ filters.forEach(filter => {
                 card.classList.add("hidden");
             }
         });
-    });
+    }
 });
 
 document.querySelectorAll(".category-card").forEach(card => {
@@ -448,68 +399,79 @@ document.querySelectorAll(".category-card").forEach(card => {
         const category = card.dataset.category;
         const filter = document.querySelector(`.filter[data-filter="${category}"]`);
         if (filter) filter.click();
-        document.getElementById("produtos").scrollIntoView({ behavior: "smooth" });
+        const produtosSecao = document.getElementById("produtos");
+        if (produtosSecao) produtosSecao.scrollIntoView({ behavior: "smooth" });
     });
 });
 
-openSearch.addEventListener("click", () => {
-    searchOverlay.classList.add("active");
-    setTimeout(() => searchInput.focus(), 100);
-});
+if (openSearch) {
+    openSearch.addEventListener("click", () => {
+        searchOverlay.classList.add("active");
+        setTimeout(() => searchInput.focus(), 100);
+    });
+}
 
-closeSearch.addEventListener("click", () => {
-    searchOverlay.classList.remove("active");
-    searchInput.value = "";
-    searchResults.innerHTML = "";
-});
-
-searchInput.addEventListener("input", () => {
-    const query = searchInput.value.toLowerCase().trim();
-    if (!query) {
+if (closeSearch) {
+    closeSearch.addEventListener("click", () => {
+        searchOverlay.classList.remove("active");
+        searchInput.value = "";
         searchResults.innerHTML = "";
-        return;
-    }
+    });
+}
 
-    const results = products.filter(product => 
-        product.name.toLowerCase().includes(query) || product.category.toLowerCase().includes(query)
-    );
-
-    if (results.length === 0) {
-        searchResults.innerHTML = `<div class="no-results">Nenhum produto encontrado.</div>`;
-        return;
-    }
-
-    searchResults.innerHTML = results.map(product => `
-        <div class="search-result" data-search-id="${product.id}">
-            <strong>${product.icon} ${product.name}</strong>
-            <span>${formatPrice(product.retailPix)}</span>
-        </div>
-    `).join("");
-
-    document.querySelectorAll(".search-result").forEach(result => {
-        result.addEventListener("click", () => {
-            addToCart(result.dataset.searchId);
-            searchOverlay.classList.remove("active");
-            searchInput.value = "";
+if (searchInput) {
+    searchInput.addEventListener("input", () => {
+        const query = searchInput.value.toLowerCase().trim();
+        if (!query) {
             searchResults.innerHTML = "";
+            return;
+        }
+
+        const results = products.filter(product => 
+            product.name.toLowerCase().includes(query) || product.category.toLowerCase().includes(query)
+        );
+
+        if (results.length === 0) {
+            searchResults.innerHTML = `<div class="no-results">Nenhum produto encontrado.</div>`;
+            return;
+        }
+
+        searchResults.innerHTML = results.map(product => `
+            <div class="search-result" data-search-id="${product.id}">
+                <strong>📦 ${product.name}</strong>
+                <span>${formatPrice(product.retailPix)}</span>
+            </div>
+        `).join("");
+
+        document.querySelectorAll(".search-result").forEach(result => {
+            result.addEventListener("click", () => {
+                addToCart(result.dataset.searchId);
+                searchOverlay.classList.remove("active");
+                searchInput.value = "";
+                searchResults.innerHTML = "";
+            });
         });
     });
-});
+}
 
 document.addEventListener("keydown", event => {
     if (event.key === "Escape") {
         closeCart();
-        searchOverlay.classList.remove("active");
-        mobileMenu.classList.remove("active");
-        searchInput.value = "";
-        searchResults.innerHTML = "";
+        if (searchOverlay) searchOverlay.classList.remove("active");
+        if (mobileMenu) mobileMenu.classList.remove("active");
+        if (searchInput) searchInput.value = "";
+        if (searchResults) searchResults.innerHTML = "";
     }
 });
 
-menuButton.addEventListener("click", () => mobileMenu.classList.toggle("active"));
+if (menuButton && mobileMenu) {
+    menuButton.addEventListener("click", () => mobileMenu.classList.toggle("active"));
+}
 
 document.querySelectorAll(".mobile-menu a").forEach(link => {
-    link.addEventListener("click", () => mobileMenu.classList.remove("active"));
+    link.addEventListener("click", () => {
+        if (mobileMenu) mobileMenu.classList.remove("active");
+    });
 });
 
 /* =========================================
@@ -518,14 +480,18 @@ document.querySelectorAll(".mobile-menu a").forEach(link => {
 
 let toastTimeout;
 function showToast(message) {
+    if (!toast) return;
     const toastMessage = toast.querySelector("p");
-    toastMessage.textContent = message;
+    if (toastMessage) toastMessage.textContent = message;
     toast.classList.add("active");
     clearTimeout(toastTimeout);
     toastTimeout = setTimeout(() => toast.classList.remove("active"), 2500);
 }
 
 /* =========================================
-   INICIALIZAÇÃO
+   INICIALIZAÇÃO DA APLICAÇÃO
 ========================================= */
-updateCart();
+document.addEventListener("DOMContentLoaded", () => {
+    fetchAndRenderProducts(); // Busca os produtos da API e preenche o grid
+    updateCart();            // Inicializa o carrinho
+});

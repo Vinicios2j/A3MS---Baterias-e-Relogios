@@ -53,7 +53,7 @@
             <div class="container">
 
                 <div class="section-heading" style="flex-direction: column; align-items: flex-start; gap: 20px;">
-                    
+
                     <div>
                         <span class="section-label">TODO O NOSSO ESTOQUE</span>
                         <h2>Catálogo Geral de Produtos</h2>
@@ -64,7 +64,7 @@
 
                     <!-- BARRA DE PESQUISA DIRETA NO TOPO DO CATÁLOGO -->
                     <div style="width: 100%; max-width: 500px; position: relative;">
-                        <input type="text" id="catalogoSearch" placeholder="🔍 Pesquisar produto pelo nome..." 
+                        <input type="text" id="catalogoSearch" placeholder="🔍 Pesquisar produto pelo nome..."
                             style="width: 100%; padding: 12px 16px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; outline: none; background: #fff;"
                             autocomplete="off">
                     </div>
@@ -88,10 +88,17 @@
                 <div class="products-grid" id="productsGrid">
 
                     <!-- PRODUTO 1 -->
+                    <!-- PRODUTO 1 -->
                     <article class="product-card" data-category="baterias" data-name="Cartela Bateria 364">
-                        <div class="product-image">
-                            <span class="product-tag">Destaque</span>
-                            <div class="product-placeholder battery-product"><span>364</span></div>
+                        <div class="product-image"
+                            style="position: relative; overflow: hidden; height: 200px; background: #f3f4f6;">
+                            <span class="product-tag"
+                                style="position: absolute; top: 10px; left: 10px; z-index: 2;">Destaque</span>
+
+                            <!-- IMAGEM REAL DA PASTA -->
+                            <img src="fotosProdutos/364.png" alt="Cartela Bateria 364"
+                                style="width: 100%; height: 100%; object-fit: cover; display: block;">
+
                             <button class="quick-add" data-id="1" title="Adicionar">+</button>
                         </div>
                         <div class="product-info">
@@ -122,8 +129,12 @@
 
                     <!-- PRODUTO 2 -->
                     <article class="product-card" data-category="baterias" data-name="Cartela Bateria 377">
-                        <div class="product-image">
-                            <div class="product-placeholder battery-product"><span>377</span></div>
+                        <div class="product-image"
+                            style="position: relative; overflow: hidden; height: 200px; background: #f3f4f6;">
+                            <!-- IMAGEM REAL DA PASTA -->
+                            <img src="fotosProdutos/377.png" alt="Cartela Bateria 377"
+                                style="width: 100%; height: 100%; object-fit: cover; display: block;">
+
                             <button class="quick-add" data-id="2" title="Adicionar">+</button>
                         </div>
                         <div class="product-info">
@@ -153,65 +164,73 @@
                     </article>
 
                     <!-- PRODUTO 3 -->
-                    <article class="product-card" data-category="pilhas" data-name="Pilha AAA">
-                        <div class="product-image">
-                            <div class="product-placeholder aa-product"><span>AAA</span></div>
-                            <button class="quick-add" data-id="7" title="Adicionar">+</button>
+                    <article class="product-card" data-category="baterias" data-name="Pilha AAA Dura Cell">
+                        <div class="product-image"
+                            style="position: relative; overflow: hidden; height: 200px; background: #f3f4f6;">
+                            <!-- IMAGEM REAL DA PASTA -->
+                            <img src="fotosProdutos/duraaa.png" alt="Cartela Bateria 395"
+                                style="width: 100%; height: 100%; object-fit: cover; display: block;">
+
+                            <button class="quick-add" data-id="3" title="Adicionar">+</button>
                         </div>
                         <div class="product-info">
-                            <span class="product-category">Pilhas</span>
-                            <h3>Pilha AAA</h3>
-                            <p class="product-description">Pilha AAA com alta durabilidade.</p>
+                            <span class="product-category">Baterias</span>
+                            <h3>Pilha DuraCell AAA</h3>
+                            <p class="product-description">Bateria de alta performance.</p>
                             <div class="product-bottom">
                                 <div class="price-container">
                                     <div class="price-type">
                                         <small>Varejo</small>
                                         <div class="price-box">
-                                            <span class="price-card">Cartão: R$ 5,00</span>
-                                            <span class="price-pix">Pix: <strong>R$ 4,00</strong></span>
+                                            <span class="price-card">Cartão: R$ 28,00</span>
+                                            <span class="price-pix">Pix: <strong>R$ 18,00</strong></span>
                                         </div>
                                     </div>
                                     <div class="price-type">
                                         <small>Atacado (5+ un)</small>
                                         <div class="price-box">
-                                            <span class="price-card">Cartão: R$ 3,00</span>
-                                            <span class="price-pix">Pix: <strong>R$ 2,50</strong></span>
+                                            <span class="price-card">Cartão: R$ 10,00</span>
+                                            <span class="price-pix">Pix: <strong>R$ 9,00</strong></span>
                                         </div>
                                     </div>
                                 </div>
-                                <button class="add-cart" data-id="7">Comprar</button>
+                                <button class="add-cart" data-id="3">Comprar</button>
                             </div>
                         </div>
                     </article>
 
                     <!-- PRODUTO 4 -->
-                    <article class="product-card" data-category="pilhas" data-name="Pilha AA">
-                        <div class="product-image">
-                            <div class="product-placeholder aa-product"><span>AA</span></div>
-                            <button class="quick-add" data-id="8" title="Adicionar">+</button>
+                    <article class="product-card" data-category="baterias" data-name="DuraCell AA">
+                        <div class="product-image"
+                            style="position: relative; overflow: hidden; height: 200px; background: #f3f4f6;">
+                            <!-- IMAGEM REAL DA PASTA -->
+                            <img src="fotosProdutos/duraa.png" alt="Cartela Bateria 2032"
+                                style="width: 100%; height: 100%; object-fit: cover; display: block;">
+
+                            <button class="quick-add" data-id="4" title="Adicionar">+</button>
                         </div>
                         <div class="product-info">
-                            <span class="product-category">Pilhas</span>
-                            <h3>Pilha AA</h3>
-                            <p class="product-description">Pilha AA para controles e portões.</p>
+                            <span class="product-category">Baterias</span>
+                            <h3>DuraCell AA</h3>
+                            <p class="product-description">Bateria moeda de lítio de longa duração.</p>
                             <div class="product-bottom">
                                 <div class="price-container">
                                     <div class="price-type">
                                         <small>Varejo</small>
                                         <div class="price-box">
-                                            <span class="price-card">Cartão: R$ 5,00</span>
-                                            <span class="price-pix">Pix: <strong>R$ 4,00</strong></span>
+                                            <span class="price-card">Cartão: R$ 10,00</span>
+                                            <span class="price-pix">Pix: <strong>R$ 7,00</strong></span>
                                         </div>
                                     </div>
                                     <div class="price-type">
                                         <small>Atacado (5+ un)</small>
                                         <div class="price-box">
-                                            <span class="price-card">Cartão: R$ 3,00</span>
-                                            <span class="price-pix">Pix: <strong>R$ 2,50</strong></span>
+                                            <span class="price-card">Cartão: R$ 5,00</span>
+                                            <span class="price-pix">Pix: <strong>R$ 4,00</strong></span>
                                         </div>
                                     </div>
                                 </div>
-                                <button class="add-cart" data-id="8">Comprar</button>
+                                <button class="add-cart" data-id="4">Comprar</button>
                             </div>
                         </div>
                     </article>
@@ -334,10 +353,14 @@
         </div>
         <div class="cart-footer">
             <div id="paymentSelectionContainer" style="margin-bottom: 12px; display: none;">
-                <p style="font-size: 12px; font-weight: 600; margin-bottom: 6px; color: #374151;">Forma de pagamento:</p>
+                <p style="font-size: 12px; font-weight: 600; margin-bottom: 6px; color: #374151;">Forma de pagamento:
+                </p>
                 <div style="display: flex; gap: 8px;">
-                    <button type="button" id="payPixBtn" onclick="setPaymentMethod('pix')" style="flex: 1; padding: 8px; font-size: 12px; font-weight: 600; border: 1px solid #d1d5db; border-radius: 6px; background: #f3f4f6; color: #374151; cursor: pointer;">Pix / Dinheiro</button>
-                    <button type="button" id="payCardBtn" onclick="setPaymentMethod('cartao')" style="flex: 1; padding: 8px; font-size: 12px; font-weight: 600; border: 1px solid #d1d5db; border-radius: 6px; background: #f3f4f6; color: #374151; cursor: pointer;">Cartão</button>
+                    <button type="button" id="payPixBtn" onclick="setPaymentMethod('pix')"
+                        style="flex: 1; padding: 8px; font-size: 12px; font-weight: 600; border: 1px solid #d1d5db; border-radius: 6px; background: #f3f4f6; color: #374151; cursor: pointer;">Pix
+                        / Dinheiro</button>
+                    <button type="button" id="payCardBtn" onclick="setPaymentMethod('cartao')"
+                        style="flex: 1; padding: 8px; font-size: 12px; font-weight: 600; border: 1px solid #d1d5db; border-radius: 6px; background: #f3f4f6; color: #374151; cursor: pointer;">Cartão</button>
                 </div>
             </div>
             <div class="cart-total">
@@ -366,7 +389,7 @@
                 cards.forEach(card => {
                     const nome = card.getAttribute('data-name').toLowerCase();
                     const descricao = card.querySelector('.product-description').textContent.toLowerCase();
-                    
+
                     if (nome.includes(termo) || descricao.includes(termo)) {
                         card.style.display = 'flex';
                     } else {
@@ -378,4 +401,5 @@
     </script>
 
 </body>
+
 </html>
