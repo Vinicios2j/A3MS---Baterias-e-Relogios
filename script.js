@@ -53,7 +53,7 @@ function closeCart() {
 }
 
 /* =========================================
-   BUSCAR PRODUTOS DA API E RENDERIZAR NA HOME
+   BUSCAR PRODUTOS DA API E RENDERIZAR NA HOME (APENAS OS 4 PRIMEIROS)
 ========================================= */
 
 async function fetchAndRenderProducts() {
@@ -62,7 +62,11 @@ async function fetchAndRenderProducts() {
         if (!response.ok) throw new Error("Erro ao buscar produtos da API");
         
         products = await response.json();
-        renderProductCards(products);
+        
+        // Pega apenas os primeiros 4 produtos do array para mostrar na Home
+        const featuredProducts = products.slice(0, 4);
+        
+        renderProductCards(featuredProducts);
     } catch (error) {
         console.error("Erro:", error);
         const grid = document.getElementById("productsGrid");

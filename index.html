@@ -25,7 +25,7 @@
         <div class="container header-content">
 
             <a href="#" class="logo">
-                <img src="logo.png" style="width: 50px;" alt="Logo A3M's" class="logo-img">
+                <img src="imgGeral/logo.png" style="width: 50px;" alt="Logo A3M's" class="logo-img">
                 <div>
                     <strong>A3MS</strong>
                     <span>Baterias & Relógios</span>
@@ -147,8 +147,7 @@
 
 
                 <div class="hero-visual">
-
-                    <img style="width: 700px;" src="banner.png" alt="banner A3MS">
+                    <img src="imgGeral/banner.png" alt="banner A3MS" class="hero-banner-img">
 
                     <div class="floating-tag tag-one">
                         🔋
@@ -159,7 +158,6 @@
                         ⚡
                         <span>Alta duração</span>
                     </div>
-
                 </div>
 
             </div>
@@ -299,41 +297,37 @@
 
         </section>
 
-
-        <!-- PRODUCTS -->
         <!-- PRODUCTS (DESTAQUES NA HOME) -->
-        <section class="products section" id="produtos">
-            <div class="container">
+         <section class="products section" id="produtos">
+    <div class="container">
 
-                <div class="section-heading">
-                    <div>
-                        <span class="section-label">NOSSO CATÁLOGO</span>
-                        <h2>Produtos em destaque</h2>
-                    </div>
-                    <div>
-                        <a href="catalogo.html" class="btn btn-primary"
-                            style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none;">
-                            Veja agora todos os nossos produtos
-                            <span>→</span>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- GRADE DE PRODUTOS EM DESTAQUE NA HOME -->
-                <div class="products-grid" id="productsGrid">
-
-
-                </div>
-
+        <div class="section-heading">
+            <div>
+                <span class="section-label">NOSSO CATÁLOGO</span>
+                <h2>Produtos em destaque</h2>
             </div>
-        </section>
+
+            <div>
+                <a href="catalogo.html" class="btn btn-primary"
+                    style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none;">
+                    Veja agora todos os nossos produtos
+                    <span>→</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="products-grid" id="productsGrid">
+        </div>
+
+    </div>
+</section>
 
         <!-- SEÇÃO EQUIPE A3MS -->
         <section class="team-section">
 
             <div class="team-image-container">
                 <!-- Coloque a foto de vocês na pasta fotosProdutos -->
-                <img src="equipe.png" alt="Equipe A3MS">
+                <img src="imgGeral/equipe.png" alt="Equipe A3MS">
             </div>
 
             <div class="benefits-grid">
@@ -404,14 +398,14 @@
                         <!-- Foto 1: Externa Edifício Seklan -->
                         <div
                             style="background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08); height: 350px;">
-                            <img src="externaSeklan.png" alt="Foto externa do Edifício Seklan"
+                            <img src="imgGeral/externaSeklan.png" alt="Foto externa do Edifício Seklan"
                                 style="width: 100%; height: 100%; object-fit: cover; display: block;">
                         </div>
 
                         <!-- Foto 2: Balcão A3MS -->
                         <div
                             style="background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08); height: 350px;">
-                            <img src="balcãoA3ms.jpeg" alt="Balcão A3MS"
+                            <img src="imgGeral/balcãoA3ms.jpeg" alt="Balcão A3MS"
                                 style="width: 100%; height: 100%; object-fit: cover; display: block;">
                         </div>
 
@@ -474,19 +468,6 @@
 
                     </div>
 
-
-                    <div class="wholesale-visual">
-
-                        <div class="wholesale-circle">
-
-                            <div class="mini-battery">⌚</div>
-                            <div class="mini-watch">💎</div>
-                            <div class="mini-battery two">⚡</div>
-
-                        </div>
-
-                    </div>
-
                 </div>
 
             </div>
@@ -533,7 +514,8 @@
 
                 <a href="#" class="logo footer-logo">
 
-                    <img src="logo.png" style="width: 50px; border-radius: 50%;" alt="Logo A3M's" class="logo-img">
+                    <img src="imgGeral/logo.png" style="width: 50px; border-radius: 50%;" alt="Logo A3M's"
+                        class="logo-img">
 
                     <div>
                         <strong>A3MS</strong>
@@ -712,6 +694,12 @@
 
 
     <script src="script.js"></script>
+    <script>
+        // Cole este script no site principal da loja para registrar o acesso
+        fetch('http://localhost:3000/api/stats/visit', {
+            method: 'POST'
+        }).catch(err => console.log('Erro ao contabilizar visita:', err));
+    </script>
 
 </body>
 
