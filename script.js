@@ -123,7 +123,6 @@ function renderProductCards(productsList) {
             data-name="${product.name}"
         >
 
-            <!-- IMAGEM -->
             <div 
                 class="product-image" 
                 style="
@@ -155,7 +154,6 @@ function renderProductCards(productsList) {
             </div>
 
 
-            <!-- INFORMAÇÕES DO PRODUTO -->
             <div class="product-info">
 
                 <span class="product-category">
@@ -167,7 +165,6 @@ function renderProductCards(productsList) {
                 </h3>
 
 
-                <!-- PREÇOS -->
                 <div class="product-bottom">
 
                     <div class="price-container">
@@ -176,7 +173,7 @@ function renderProductCards(productsList) {
                         <div class="price-type">
 
                             <small>
-                                Varejo — 100ml
+                                Varejo
                             </small>
 
                             <div class="price-box">
@@ -186,10 +183,7 @@ function renderProductCards(productsList) {
                                 </span>
 
                                 <span class="price-pix">
-                                    Pix: 
-                                    <strong>
-                                        ${formatPrice(product.retailPix)}
-                                    </strong>
+                                    Pix: <strong>${formatPrice(product.retailPix)}</strong>
                                 </span>
 
                             </div>
@@ -201,7 +195,7 @@ function renderProductCards(productsList) {
                         <div class="price-type">
 
                             <small>
-                                Atacado (5+ un) — 100ml
+                                Atacado (5+ un)
                             </small>
 
                             <div class="price-box">
@@ -211,10 +205,7 @@ function renderProductCards(productsList) {
                                 </span>
 
                                 <span class="price-pix">
-                                    Pix: 
-                                    <strong>
-                                        ${formatPrice(product.wholesalePix)}
-                                    </strong>
+                                    Pix: <strong>${formatPrice(product.wholesalePix)}</strong>
                                 </span>
 
                             </div>
@@ -222,36 +213,22 @@ function renderProductCards(productsList) {
                         </div>
 
 
-                        <!-- AVISO SOBRE OUTRAS EMBALAGENS -->
-                        <div 
-                            style="
-                                margin-top: 8px;
-                                padding: 8px;
-                                background: #f9fafb;
-                                border-radius: 6px;
-                                border: 1px solid #e5e7eb;
-                            "
-                        >
-
-                            <p 
-                                style="
-                                    margin: 0;
-                                    font-size: 11px;
-                                    line-height: 1.4;
-                                    color: #6b7280;
-                                "
-                            >
-                                📦 <strong>Outras embalagens:</strong><br>
-                                500ml e 1 Litro possuem valores diferentes.
-                                Consulte pelo WhatsApp.
-                            </p>
-
-                        </div>
+                        <!-- AVISO -->
+                        <p style="
+                            font-size: 11px;
+                            color: #6b7280;
+                            margin: 7px 0 0;
+                            line-height: 1.4;
+                        ">
+                            <strong>A partir de:</strong> 
+                            ${formatPrice(product.retailPix)}
+                            <br>
+                            500ml e 1 Litro: consulte os valores pelo WhatsApp.
+                        </p>
 
                     </div>
 
 
-                    <!-- BOTÃO COMPRAR -->
                     <button 
                         class="add-cart" 
                         data-id="${product.id}"
