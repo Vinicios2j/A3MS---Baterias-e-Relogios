@@ -106,9 +106,8 @@ function renderProductCards(productsList) {
     if (productsList.length === 0) {
         grid.innerHTML = `
             <p style="
-                text-align: center;
-                grid-column: 1 / -1;
-                color: #6b7280;
+                text-align:center;
+                grid-column:1/-1;
             ">
                 Nenhum produto cadastrado no momento.
             </p>
@@ -132,6 +131,7 @@ function renderProductCards(productsList) {
                     background: #f3f4f6;
                 "
             >
+
                 <img 
                     src="${product.image}" 
                     alt="${product.name}" 
@@ -151,6 +151,7 @@ function renderProductCards(productsList) {
                 >
                     +
                 </button>
+
             </div>
 
 
@@ -173,7 +174,7 @@ function renderProductCards(productsList) {
                         <div class="price-type">
 
                             <small>
-                                Varejo
+                                Varejo — A partir de
                             </small>
 
                             <div class="price-box">
@@ -195,7 +196,7 @@ function renderProductCards(productsList) {
                         <div class="price-type">
 
                             <small>
-                                Atacado (5+ un)
+                                Atacado (5+ un) — A partir de
                             </small>
 
                             <div class="price-box">
@@ -213,17 +214,14 @@ function renderProductCards(productsList) {
                         </div>
 
 
-                        <!-- AVISO -->
+                        <!-- AVISO DE VARIAÇÃO DE PREÇO -->
                         <p style="
                             font-size: 11px;
                             color: #6b7280;
                             margin: 7px 0 0;
                             line-height: 1.4;
                         ">
-                            <strong>A partir de:</strong> 
-                            ${formatPrice(product.retailPix)}
-                            <br>
-                            500ml e 1 Litro: consulte os valores pelo WhatsApp.
+                            Os preços podem sofrer alterações de acordo com o tamanho ou litragem do produto.
                         </p>
 
                     </div>
