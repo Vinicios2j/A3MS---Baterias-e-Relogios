@@ -230,612 +230,778 @@
 
     <!-- SCRIPT PRINCIPAL E SCRIPT ESPECÍFICO DE BUSCA DO CATÁLOGO -->
     <script src="script.js"></script>
-  <script>
-    let produtosCatalogo = [];
-    let paginaAtual = 1;
-    const produtosPorPagina = 8;
+    <script>
+/* =========================================================
+   CATÁLOGO GERAL A3MS
+   - 8 produtos por página
+   - Paginação automática
+   - Pesquisa
+   - Filtro por categoria
+   - Não interfere no script.js da loja
+========================================================= */
 
-    /* =========================================
-       CARREGAR PRODUTOS DA API
-    ========================================= */
+let produtosCatalogo = [];
+let produtosFiltrados = [];
 
-    async function carregarProdutosCatalogo() {
+let paginaAtualCatalogo = 1;
 
-        try {
+const PRODUTOS_POR_PAGINA = 8;
 
-            const response = await fetch('http://localhost:3000/api/products');
 
-            if (!response.ok) {
-                throw new Error('Erro ao buscar produtos da API');
+/* =========================================================
+   FORMATAR PREÇO
+========================================================= */
+
+function formatarPrecoCatalogo(valor) {
+
+    const numero = Number(valor);
+
+    if (isNaN(numero)) {
+        return "R$ 0,00";
+    }
+
+    return numero.toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL"
+    });
+}
+
+
+/* =========================================================
+   CARREGAR PRODUTOS
+========================================================= */
+
+async function carregarProdutosCatalogo() {
+
+    const grid = document.getElementById("productsGrid");
+
+    if (!grid) return;
+
+    try {
+
+        grid.innerHTML = `
+            <p style="
+                grid-column: 1/-1;
+                text-align: center;
+                color: #6b7280;
+                padding: 40px;
+            ">
+                Carregando produtos...
+            </p>
+        `;
+
+
+        const response = await fetch(
+            "https://b829-201-7-215-23.ngrok-free.app/api/products",
+            {
+                method: "GET",
+                headers: {
+                    "ngrok-skip-browser-warning": "true"
+                }
             }
+        );
 
-            produtosCatalogo = await response.json();
 
-            paginaAtual = 1;
-
-            renderizarPaginaCatalogo();
-
-        } catch (error) {
-
-            console.error(
-                'Erro ao carregar produtos do catálogo:',
-                error
-            );
-
-            const grid = document.getElementById('productsGrid');
-
-            if (grid) {
-
-                grid.innerHTML = `
-                    <p style="
-                        grid-column: 1/-1;
-                        text-align: center;
-                        color: #dc2626;
-                        padding: 40px;
-                    ">
-                        Erro ao carregar os produtos do servidor.
-                    </p>
-                `;
-            }
+        if (!response.ok) {
+            throw new Error("Erro ao buscar produtos da API");
         }
+
+
+        const dados = await response.json();
+
+
+        if (!Array.isArray(dados)) {
+            throw new Error("A API não retornou uma lista de produtos");
+        }
+
+
+        produtosCatalogo = dados;
+
+        produtosFiltrados = [...produtosCatalogo];
+
+        paginaAtualCatalogo = 1;
+
+
+        renderizarCatalogo();
+
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao carregar produtos do catálogo:",
+            erro
+        );
+
+
+        grid.innerHTML = `
+            <p style="
+                grid-column: 1/-1;
+                text-align: center;
+                color: #dc2626;
+                padding: 40px;
+            ">
+                Erro ao carregar os produtos do servidor.
+            </p>
+        `;
+
+    }
+
+}
+
+
+/* =========================================================
+   RENDERIZAR CATÁLOGO
+========================================================= */
+
+function renderizarCatalogo() {
+
+    const grid = document.getElementById("productsGrid");
+
+    if (!grid) return;
+
+
+    grid.innerHTML = "";
+
+
+    /* -----------------------------------------
+       NENHUM PRODUTO
+    ----------------------------------------- */
+
+    if (produtosFiltrados.length === 0) {
+
+        grid.innerHTML = `
+            <p style="
+                grid-column: 1/-1;
+                text-align: center;
+                color: #6b7280;
+                padding: 40px;
+            ">
+                Nenhum produto encontrado.
+            </p>
+        `;
+
+        renderizarPaginacaoCatalogo();
+
+        return;
     }
 
 
-    /* =========================================
-       RENDERIZAR PRODUTOS DA PÁGINA ATUAL
-    ========================================= */
+    /* -----------------------------------------
+       CALCULAR PAGINA
+    ----------------------------------------- */
 
-    function renderizarPaginaCatalogo() {
+    const inicio =
+        (paginaAtualCatalogo - 1) *
+        PRODUTOS_POR_PAGINA;
 
-        const grid = document.getElementById('productsGrid');
 
-        if (!grid) return;
+    const fim =
+        inicio +
+        PRODUTOS_POR_PAGINA;
 
-        grid.innerHTML = '';
 
-        if (produtosCatalogo.length === 0) {
+    const produtosDaPagina =
+        produtosFiltrados.slice(inicio, fim);
 
-            grid.innerHTML = `
-                <p style="
-                    grid-column: 1/-1;
-                    text-align: center;
-                    color: #6b7280;
-                    padding: 40px;
-                ">
-                    Nenhum produto cadastrado no momento.
+
+    /* -----------------------------------------
+       CRIAR CARDS
+    ----------------------------------------- */
+
+    produtosDaPagina.forEach(produto => {
+
+        const categoria =
+            String(produto.category || "geral")
+                .toLowerCase()
+                .trim();
+
+
+        const card =
+            document.createElement("article");
+
+
+        card.className = "product-card";
+
+
+        card.dataset.category = categoria;
+
+        card.dataset.name =
+            String(produto.name || "")
+                .toLowerCase();
+
+
+        card.innerHTML = `
+
+            <div class="product-image-container">
+
+                <img
+                    src="${produto.image || "fotosProdutos/364.png"}"
+                    alt="${produto.name || "Produto"}"
+                    class="product-image"
+                    loading="lazy"
+                    onerror="this.onerror=null; this.src='fotosProdutos/364.png';"
+                >
+
+            </div>
+
+
+            <div class="product-content">
+
+                <span class="product-category">
+                    ${produto.category || "Geral"}
+                </span>
+
+
+                <h3 class="product-title">
+                    ${produto.name || "Produto sem nome"}
+                </h3>
+
+
+                <p class="product-description">
+                    Os preços podem sofrer alterações de acordo com o tamanho ou litragem do produto.
                 </p>
-            `;
-
-            renderizarPaginacao();
-
-            return;
-        }
 
 
-        /*
-         * Calcula quais produtos serão exibidos.
-         *
-         * Página 1 = produtos 0 até 7
-         * Página 2 = produtos 8 até 15
-         * Página 3 = produtos 16 até 23
-         */
-
-        const inicio = (paginaAtual - 1) * produtosPorPagina;
-        const fim = inicio + produtosPorPagina;
-
-        const produtosDaPagina = produtosCatalogo.slice(inicio, fim);
+                <div class="product-prices">
 
 
-        produtosDaPagina.forEach(p => {
+                    <!-- ATACADO -->
 
-            const catNormalized =
-                (p.category || 'geral').toLowerCase();
+                    <div class="price-row">
 
+                        <span class="price-label">
+                            Atacado (5+ un) — A partir de:
+                        </span>
 
-            const card = document.createElement('article');
+                        <div>
 
-            card.className = 'product-card';
-
-            card.setAttribute(
-                'data-category',
-                catNormalized
-            );
-
-            card.setAttribute(
-                'data-name',
-                p.name
-            );
-
-
-            card.innerHTML = `
-
-                <div class="product-image-container">
-
-                    <img 
-                        src="${p.image}" 
-                        alt="${p.name}" 
-                        class="product-image" 
-                        loading="lazy"
-                        onerror="this.src='fotosProdutos/364.png'"
-                    >
-
-                </div>
-
-
-                <div class="product-content">
-
-                    <span class="product-category">
-                        ${p.category}
-                    </span>
-
-
-                    <h3 class="product-title">
-                        ${p.name}
-                    </h3>
-
-
-                    <p class="product-description">
-                        Os preços podem sofrer alterações de acordo com o tamanho ou litragem do produto.
-                    </p>
-
-
-                    <div class="product-prices">
-
-                        <!-- ATACADO -->
-
-                        <div class="price-row">
-
-                            <span class="price-label">
-                                Atacado (5+ un) — A partir de:
+                            <span class="price-value">
+                                Pix:
+                                ${formatarPrecoCatalogo(
+                                    produto.wholesalePix
+                                )}
                             </span>
 
-                            <div>
-
-                                <span class="price-value">
-                                    Pix: R$ ${Number(p.wholesalePix || 0)
-                                        .toFixed(2)
-                                        .replace('.', ',')}
-                                </span>
-
-                                <span class="price-sub">
-                                    Cartão: R$ ${Number(p.wholesaleCard || 0)
-                                        .toFixed(2)
-                                        .replace('.', ',')}
-                                </span>
-
-                            </div>
-
-                        </div>
-
-
-                        <!-- VAREJO -->
-
-                        <div class="price-row">
-
-                            <span class="price-label">
-                                Varejo — A partir de:
+                            <span class="price-sub">
+                                Cartão:
+                                ${formatarPrecoCatalogo(
+                                    produto.wholesaleCard
+                                )}
                             </span>
-
-                            <div>
-
-                                <span class="price-value">
-                                    Pix: R$ ${Number(p.retailPix || 0)
-                                        .toFixed(2)
-                                        .replace('.', ',')}
-                                </span>
-
-                                <span class="price-sub">
-                                    Cartão: R$ ${Number(p.retailCard || 0)
-                                        .toFixed(2)
-                                        .replace('.', ',')}
-                                </span>
-
-                            </div>
 
                         </div>
 
                     </div>
 
 
-                    <button 
-                        class="add-to-cart-btn"
-                        onclick="addToCart(${p.id})"
-                    >
-                        Adicionar ao Carrinho
-                    </button>
+                    <!-- VAREJO -->
+
+                    <div class="price-row">
+
+                        <span class="price-label">
+                            Varejo — A partir de:
+                        </span>
+
+                        <div>
+
+                            <span class="price-value">
+                                Pix:
+                                ${formatarPrecoCatalogo(
+                                    produto.retailPix
+                                )}
+                            </span>
+
+                            <span class="price-sub">
+                                Cartão:
+                                ${formatarPrecoCatalogo(
+                                    produto.retailCard
+                                )}
+                            </span>
+
+                        </div>
+
+                    </div>
+
 
                 </div>
-            `;
 
 
-            grid.appendChild(card);
-
-        });
-
-
-        renderizarPaginacao();
-
-        aplicarFiltroAtual();
-
-    }
+                <button
+                    class="add-to-cart-btn"
+                    onclick="addToCart(${produto.id})"
+                >
+                    Adicionar ao Carrinho
+                </button>
 
 
-    /* =========================================
-       PAGINAÇÃO
-    ========================================= */
+            </div>
 
-    function renderizarPaginacao() {
-
-        let paginacao =
-            document.getElementById('catalogoPagination');
-
-
-        /*
-         * Se ainda não existir o elemento,
-         * cria automaticamente abaixo dos produtos.
-         */
-
-        if (!paginacao) {
-
-            paginacao = document.createElement('div');
-
-            paginacao.id = 'catalogoPagination';
-
-            paginacao.style.cssText = `
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                gap: 8px;
-                margin: 40px 0 20px;
-                flex-wrap: wrap;
-            `;
-
-            const grid =
-                document.getElementById('productsGrid');
-
-            if (grid) {
-                grid.parentNode.insertBefore(
-                    paginacao,
-                    grid.nextSibling
-                );
-            }
-        }
-
-
-        paginacao.innerHTML = '';
-
-
-        const totalPaginas =
-            Math.ceil(
-                produtosCatalogo.length /
-                produtosPorPagina
-            );
-
-
-        /*
-         * Se houver somente uma página,
-         * não mostra os botões.
-         */
-
-        if (totalPaginas <= 1) {
-            return;
-        }
-
-
-        /* BOTÃO ANTERIOR */
-
-        const anterior =
-            document.createElement('button');
-
-        anterior.textContent = '← Anterior';
-
-        anterior.disabled =
-            paginaAtual === 1;
-
-        anterior.style.cssText = `
-            padding: 9px 14px;
-            border: 1px solid #d1d5db;
-            border-radius: 7px;
-            background: #fff;
-            color: #374151;
-            cursor: ${paginaAtual === 1
-                ? 'not-allowed'
-                : 'pointer'};
-            font-weight: 600;
-        `;
-
-        anterior.onclick = () => {
-
-            if (paginaAtual > 1) {
-
-                paginaAtual--;
-
-                renderizarPaginaCatalogo();
-
-                window.scrollTo({
-                    top: document
-                        .getElementById('produtos')
-                        .offsetTop - 80,
-                    behavior: 'smooth'
-                });
-            }
-        };
-
-        paginacao.appendChild(anterior);
-
-
-        /* NÚMEROS DAS PÁGINAS */
-
-        for (
-            let i = 1;
-            i <= totalPaginas;
-            i++
-        ) {
-
-            const botao =
-                document.createElement('button');
-
-            botao.textContent = i;
-
-            const paginaAtiva =
-                i === paginaAtual;
-
-
-            botao.style.cssText = `
-                min-width: 38px;
-                height: 38px;
-                padding: 0 10px;
-                border: 1px solid ${paginaAtiva
-                    ? '#16a34a'
-                    : '#d1d5db'};
-                border-radius: 7px;
-                background: ${paginaAtiva
-                    ? '#16a34a'
-                    : '#fff'};
-                color: ${paginaAtiva
-                    ? '#fff'
-                    : '#374151'};
-                cursor: pointer;
-                font-weight: 700;
-            `;
-
-
-            botao.onclick = () => {
-
-                paginaAtual = i;
-
-                renderizarPaginaCatalogo();
-
-                window.scrollTo({
-                    top: document
-                        .getElementById('produtos')
-                        .offsetTop - 80,
-                    behavior: 'smooth'
-                });
-
-            };
-
-
-            paginacao.appendChild(botao);
-
-        }
-
-
-        /* BOTÃO PRÓXIMA */
-
-        const proxima =
-            document.createElement('button');
-
-        proxima.textContent = 'Próxima →';
-
-        proxima.disabled =
-            paginaAtual === totalPaginas;
-
-        proxima.style.cssText = `
-            padding: 9px 14px;
-            border: 1px solid #d1d5db;
-            border-radius: 7px;
-            background: #fff;
-            color: #374151;
-            cursor: ${paginaAtual === totalPaginas
-                ? 'not-allowed'
-                : 'pointer'};
-            font-weight: 600;
         `;
 
 
-        proxima.onclick = () => {
-
-            if (paginaAtual < totalPaginas) {
-
-                paginaAtual++;
-
-                renderizarPaginaCatalogo();
-
-                window.scrollTo({
-                    top: document
-                        .getElementById('produtos')
-                        .offsetTop - 80,
-                    behavior: 'smooth'
-                });
-
-            }
-
-        };
-
-
-        paginacao.appendChild(proxima);
-
-
-        /* INFORMAÇÃO DA PÁGINA */
-
-        const info =
-            document.createElement('span');
-
-        info.textContent =
-            `Página ${paginaAtual} de ${totalPaginas}`;
-
-        info.style.cssText = `
-            width: 100%;
-            text-align: center;
-            margin-top: 8px;
-            font-size: 12px;
-            color: #6b7280;
-        `;
-
-        paginacao.appendChild(info);
-
-    }
-
-
-    /* =========================================
-       FILTRO DE CATEGORIA
-    ========================================= */
-
-    let categoriaSelecionada = 'todos';
-
-
-    function aplicarFiltroAtual() {
-
-        const cards =
-            document.querySelectorAll(
-                '#productsGrid .product-card'
-            );
-
-
-        cards.forEach(card => {
-
-            const categoria =
-                card.dataset.category;
-
-
-            if (
-                categoriaSelecionada === 'todos' ||
-                categoria === categoriaSelecionada
-            ) {
-
-                card.style.display = '';
-
-            } else {
-
-                card.style.display = 'none';
-
-            }
-
-        });
-
-    }
-
-
-    document.addEventListener('click', event => {
-
-        const filterBtn =
-            event.target.closest('.filter');
-
-        if (!filterBtn) return;
-
-
-        document
-            .querySelectorAll('.filter')
-            .forEach(btn =>
-                btn.classList.remove('active')
-            );
-
-
-        filterBtn.classList.add('active');
-
-
-        categoriaSelecionada =
-            filterBtn.dataset.filter;
-
-
-        aplicarFiltroAtual();
+        grid.appendChild(card);
 
     });
 
 
-    /* =========================================
-       PESQUISA
-    ========================================= */
+    /* -----------------------------------------
+       PAGINAÇÃO
+    ----------------------------------------- */
 
-    const campoBusca =
-        document.getElementById('catalogoSearch');
+    renderizarPaginacaoCatalogo();
 
-
-    if (campoBusca) {
-
-        campoBusca.addEventListener(
-            'input',
-            function () {
-
-                const busca =
-                    this.value
-                        .toLowerCase()
-                        .trim();
+}
 
 
-                const cards =
-                    document.querySelectorAll(
-                        '#productsGrid .product-card'
-                    );
+/* =========================================================
+   PAGINAÇÃO
+========================================================= */
 
+function renderizarPaginacaoCatalogo() {
 
-                cards.forEach(card => {
-
-                    const nome =
-                        (
-                            card.dataset.name ||
-                            ''
-                        ).toLowerCase();
-
-
-                    const categoria =
-                        card.dataset.category;
-
-
-                    const encontrouNome =
-                        nome.includes(busca);
-
-
-                    const encontrouCategoria =
-                        categoria.includes(busca);
-
-
-                    const passouFiltroCategoria =
-                        categoriaSelecionada === 'todos' ||
-                        categoria === categoriaSelecionada;
-
-
-                    if (
-                        (encontrouNome ||
-                            encontrouCategoria) &&
-                        passouFiltroCategoria
-                    ) {
-
-                        card.style.display = '';
-
-                    } else {
-
-                        card.style.display = 'none';
-
-                    }
-
-                });
-
-            }
+    let paginacao =
+        document.getElementById(
+            "catalogoPagination"
         );
+
+
+    /* Criar container */
+
+    if (!paginacao) {
+
+        paginacao =
+            document.createElement("div");
+
+        paginacao.id =
+            "catalogoPagination";
+
+
+        paginacao.style.cssText = `
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin: 40px auto 20px;
+            width: 100%;
+        `;
+
+
+        const grid =
+            document.getElementById(
+                "productsGrid"
+            );
+
+
+        if (grid) {
+
+            grid.parentNode.insertBefore(
+                paginacao,
+                grid.nextSibling
+            );
+
+        }
 
     }
 
 
-    /* =========================================
-       INICIALIZAÇÃO
-    ========================================= */
+    paginacao.innerHTML = "";
 
-    document.addEventListener(
-        'DOMContentLoaded',
-        carregarProdutosCatalogo
+
+    /* -----------------------------------------
+       CALCULAR TOTAL DE PÁGINAS
+    ----------------------------------------- */
+
+    const totalPaginas =
+        Math.ceil(
+            produtosFiltrados.length /
+            PRODUTOS_POR_PAGINA
+        );
+
+
+    /* Se não houver páginas */
+
+    if (totalPaginas <= 1) {
+        return;
+    }
+
+
+    /* -----------------------------------------
+       BOTÃO ANTERIOR
+    ----------------------------------------- */
+
+    const anterior =
+        document.createElement("button");
+
+
+    anterior.innerHTML =
+        "← Anterior";
+
+
+    anterior.disabled =
+        paginaAtualCatalogo === 1;
+
+
+    anterior.style.cssText = `
+        padding: 10px 16px;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        background: #fff;
+        color: #374151;
+        font-weight: 600;
+        cursor: ${paginaAtualCatalogo === 1
+            ? "not-allowed"
+            : "pointer"};
+    `;
+
+
+    anterior.onclick = function () {
+
+        if (paginaAtualCatalogo > 1) {
+
+            paginaAtualCatalogo--;
+
+            renderizarCatalogo();
+
+            voltarParaProdutos();
+
+        }
+
+    };
+
+
+    paginacao.appendChild(anterior);
+
+
+    /* -----------------------------------------
+       NÚMEROS DAS PÁGINAS
+    ----------------------------------------- */
+
+    for (
+        let pagina = 1;
+        pagina <= totalPaginas;
+        pagina++
+    ) {
+
+        const botao =
+            document.createElement("button");
+
+
+        botao.textContent =
+            pagina;
+
+
+        const ativa =
+            pagina === paginaAtualCatalogo;
+
+
+        botao.style.cssText = `
+            min-width: 40px;
+            height: 40px;
+            padding: 0 12px;
+            border: 1px solid ${ativa
+                ? "#16a34a"
+                : "#d1d5db"};
+            border-radius: 8px;
+            background: ${ativa
+                ? "#16a34a"
+                : "#fff"};
+            color: ${ativa
+                ? "#fff"
+                : "#374151"};
+            font-weight: 700;
+            cursor: pointer;
+        `;
+
+
+        botao.onclick = function () {
+
+            paginaAtualCatalogo =
+                pagina;
+
+
+            renderizarCatalogo();
+
+            voltarParaProdutos();
+
+        };
+
+
+        paginacao.appendChild(botao);
+
+    }
+
+
+    /* -----------------------------------------
+       BOTÃO PRÓXIMA
+    ----------------------------------------- */
+
+    const proxima =
+        document.createElement("button");
+
+
+    proxima.innerHTML =
+        "Próxima →";
+
+
+    proxima.disabled =
+        paginaAtualCatalogo === totalPaginas;
+
+
+    proxima.style.cssText = `
+        padding: 10px 16px;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        background: #fff;
+        color: #374151;
+        font-weight: 600;
+        cursor: ${paginaAtualCatalogo === totalPaginas
+            ? "not-allowed"
+            : "pointer"};
+    `;
+
+
+    proxima.onclick = function () {
+
+        if (
+            paginaAtualCatalogo <
+            totalPaginas
+        ) {
+
+            paginaAtualCatalogo++;
+
+            renderizarCatalogo();
+
+            voltarParaProdutos();
+
+        }
+
+    };
+
+
+    paginacao.appendChild(proxima);
+
+
+    /* -----------------------------------------
+       INFORMAÇÃO
+    ----------------------------------------- */
+
+    const info =
+        document.createElement("div");
+
+
+    info.style.cssText = `
+        width: 100%;
+        text-align: center;
+        font-size: 13px;
+        color: #6b7280;
+        margin-top: 6px;
+    `;
+
+
+    const inicioProdutos =
+        ((paginaAtualCatalogo - 1) *
+            PRODUTOS_POR_PAGINA) + 1;
+
+
+    const fimProdutos =
+        Math.min(
+            paginaAtualCatalogo *
+                PRODUTOS_POR_PAGINA,
+            produtosFiltrados.length
+        );
+
+
+    info.textContent =
+        `Mostrando ${inicioProdutos}–${fimProdutos} de ${produtosFiltrados.length} produtos • Página ${paginaAtualCatalogo} de ${totalPaginas}`;
+
+
+    paginacao.appendChild(info);
+
+}
+
+
+/* =========================================================
+   VOLTAR PARA O TOPO DOS PRODUTOS
+========================================================= */
+
+function voltarParaProdutos() {
+
+    const secao =
+        document.getElementById("produtos");
+
+
+    if (!secao) return;
+
+
+    const posicao =
+        secao.getBoundingClientRect().top +
+        window.pageYOffset -
+        90;
+
+
+    window.scrollTo({
+
+        top: posicao,
+
+        behavior: "smooth"
+
+    });
+
+}
+
+
+/* =========================================================
+   FILTRO DE CATEGORIA
+========================================================= */
+
+let categoriaSelecionadaCatalogo =
+    "todos";
+
+
+document.addEventListener(
+    "click",
+    function (event) {
+
+        const botao =
+            event.target.closest(
+                ".product-filters .filter"
+            );
+
+
+        if (!botao) return;
+
+
+        document
+            .querySelectorAll(
+                ".product-filters .filter"
+            )
+            .forEach(btn => {
+
+                btn.classList.remove(
+                    "active"
+                );
+
+            });
+
+
+        botao.classList.add("active");
+
+
+        categoriaSelecionadaCatalogo =
+            (
+                botao.dataset.filter ||
+                "todos"
+            )
+            .toLowerCase();
+
+
+        aplicarFiltrosCatalogo();
+
+    }
+);
+
+
+/* =========================================================
+   PESQUISA + FILTRO
+========================================================= */
+
+function aplicarFiltrosCatalogo() {
+
+    const campo =
+        document.getElementById(
+            "catalogoSearch"
+        );
+
+
+    const busca =
+        campo
+            ? campo.value
+                .toLowerCase()
+                .trim()
+            : "";
+
+
+    produtosFiltrados =
+        produtosCatalogo.filter(produto => {
+
+            const nome =
+                String(
+                    produto.name || ""
+                ).toLowerCase();
+
+
+            const categoria =
+                String(
+                    produto.category || ""
+                ).toLowerCase();
+
+
+            const passouCategoria =
+                categoriaSelecionadaCatalogo ===
+                "todos" ||
+                categoria ===
+                categoriaSelecionadaCatalogo;
+
+
+            const passouBusca =
+                !busca ||
+                nome.includes(busca) ||
+                categoria.includes(busca);
+
+
+            return (
+                passouCategoria &&
+                passouBusca
+            );
+
+        });
+
+
+    paginaAtualCatalogo = 1;
+
+
+    renderizarCatalogo();
+
+}
+
+
+/* =========================================================
+   CAMPO DE PESQUISA
+========================================================= */
+
+const campoBuscaCatalogo =
+    document.getElementById(
+        "catalogoSearch"
     );
+
+
+if (campoBuscaCatalogo) {
+
+    campoBuscaCatalogo.addEventListener(
+        "input",
+        function () {
+
+            aplicarFiltrosCatalogo();
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   INICIALIZAÇÃO
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        carregarProdutosCatalogo();
+
+    }
+);
 
 </script>
 
