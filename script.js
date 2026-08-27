@@ -104,39 +104,165 @@ function renderProductCards(productsList) {
     if (!grid) return;
 
     if (productsList.length === 0) {
-        grid.innerHTML = `<p style="text-align:center; grid-column: 1/-1;">Nenhum produto cadastrado no momento.</p>`;
+        grid.innerHTML = `
+            <p style="
+                text-align: center;
+                grid-column: 1 / -1;
+                color: #6b7280;
+            ">
+                Nenhum produto cadastrado no momento.
+            </p>
+        `;
         return;
     }
 
     grid.innerHTML = productsList.map(product => `
-        <article class="product-card" data-category="${product.category.toLowerCase()}" data-name="${product.name}">
-            <div class="product-image" style="position: relative; overflow: hidden; height: 200px; background: #f3f4f6;">
-                <img src="${product.image}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: cover; display: block;" onerror="this.src='https://via.placeholder.com/200?text=A3MS'">
-                <button class="quick-add" data-id="${product.id}" title="Adicionar Rápido">+</button>
+        <article 
+            class="product-card" 
+            data-category="${product.category.toLowerCase()}" 
+            data-name="${product.name}"
+        >
+
+            <!-- IMAGEM -->
+            <div 
+                class="product-image" 
+                style="
+                    position: relative;
+                    overflow: hidden;
+                    height: 200px;
+                    background: #f3f4f6;
+                "
+            >
+                <img 
+                    src="${product.image}" 
+                    alt="${product.name}" 
+                    style="
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        display: block;
+                    "
+                    onerror="this.src='https://via.placeholder.com/200?text=A3MS'"
+                >
+
+                <button 
+                    class="quick-add" 
+                    data-id="${product.id}" 
+                    title="Adicionar Rápido"
+                >
+                    +
+                </button>
             </div>
+
+
+            <!-- INFORMAÇÕES DO PRODUTO -->
             <div class="product-info">
-                <span class="product-category">${product.category}</span>
-                <h3>${product.name}</h3>
+
+                <span class="product-category">
+                    ${product.category}
+                </span>
+
+                <h3>
+                    ${product.name}
+                </h3>
+
+
+                <!-- PREÇOS -->
                 <div class="product-bottom">
+
                     <div class="price-container">
+
+                        <!-- VAREJO -->
                         <div class="price-type">
-                            <small>Varejo</small>
+
+                            <small>
+                                Varejo — 100ml
+                            </small>
+
                             <div class="price-box">
-                                <span class="price-card">Cartão: ${formatPrice(product.retailCard)}</span>
-                                <span class="price-pix">Pix: <strong>${formatPrice(product.retailPix)}</strong></span>
+
+                                <span class="price-card">
+                                    Cartão: ${formatPrice(product.retailCard)}
+                                </span>
+
+                                <span class="price-pix">
+                                    Pix: 
+                                    <strong>
+                                        ${formatPrice(product.retailPix)}
+                                    </strong>
+                                </span>
+
                             </div>
+
                         </div>
+
+
+                        <!-- ATACADO -->
                         <div class="price-type">
-                            <small>Atacado (5+ un)</small>
+
+                            <small>
+                                Atacado (5+ un) — 100ml
+                            </small>
+
                             <div class="price-box">
-                                <span class="price-card">Cartão: ${formatPrice(product.wholesaleCard)}</span>
-                                <span class="price-pix">Pix: <strong>${formatPrice(product.wholesalePix)}</strong></span>
+
+                                <span class="price-card">
+                                    Cartão: ${formatPrice(product.wholesaleCard)}
+                                </span>
+
+                                <span class="price-pix">
+                                    Pix: 
+                                    <strong>
+                                        ${formatPrice(product.wholesalePix)}
+                                    </strong>
+                                </span>
+
                             </div>
+
                         </div>
+
+
+                        <!-- AVISO SOBRE OUTRAS EMBALAGENS -->
+                        <div 
+                            style="
+                                margin-top: 8px;
+                                padding: 8px;
+                                background: #f9fafb;
+                                border-radius: 6px;
+                                border: 1px solid #e5e7eb;
+                            "
+                        >
+
+                            <p 
+                                style="
+                                    margin: 0;
+                                    font-size: 11px;
+                                    line-height: 1.4;
+                                    color: #6b7280;
+                                "
+                            >
+                                📦 <strong>Outras embalagens:</strong><br>
+                                500ml e 1 Litro possuem valores diferentes.
+                                Consulte pelo WhatsApp.
+                            </p>
+
+                        </div>
+
                     </div>
-                    <button class="add-cart" data-id="${product.id}">Comprar</button>
+
+
+                    <!-- BOTÃO COMPRAR -->
+                    <button 
+                        class="add-cart" 
+                        data-id="${product.id}"
+                    >
+                        Comprar
+                    </button>
+
                 </div>
+
             </div>
+
         </article>
     `).join("");
 }
