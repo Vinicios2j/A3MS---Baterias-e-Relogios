@@ -620,6 +620,15 @@ function showToast(message) {
    INICIALIZAÇÃO DA APLICAÇÃO
 ========================================= */
 document.addEventListener("DOMContentLoaded", () => {
-    fetchAndRenderProducts(); // Busca os produtos da API e preenche o grid
-    updateCart();            // Inicializa o carrinho
+
+    // Só renderiza os produtos da Home
+    // se existir um grid específico da Home.
+    if (
+        document.getElementById("homeProductsGrid")
+    ) {
+        fetchAndRenderProducts();
+    }
+
+    updateCart();
+
 });
