@@ -230,71 +230,614 @@
 
     <!-- SCRIPT PRINCIPAL E SCRIPT ESPECÍFICO DE BUSCA DO CATÁLOGO -->
     <script src="script.js"></script>
-    <script>
-        // Função para carregar e exibir todos os produtos dinamicamente do backend
-        async function carregarProdutosCatalogo() {
-            try {
-                const response = await fetch('http://localhost:3000/api/products');
-                const products = await response.json();
+  <script>
+    let produtosCatalogo = [];
+    let paginaAtual = 1;
+    const produtosPorPagina = 8;
 
-                const grid = document.getElementById('productsGrid');
-                if (!grid) return;
+    /* =========================================
+       CARREGAR PRODUTOS DA API
+    ========================================= */
 
-                grid.innerHTML = '';
+    async function carregarProdutosCatalogo() {
 
-                if (products.length === 0) {
-                    grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #6b7280; padding: 40px;">Nenhum produto cadastrado no momento.</p>';
-                    return;
-                }
+        try {
 
-                products.forEach(p => {
-                    // Normaliza a categoria para bater com os filtros (ex: "Baterias" vira "baterias")
-                    const catNormalized = (p.category || 'geral').toLowerCase();
+            const response = await fetch('http://localhost:3000/api/products');
 
-                    const card = document.createElement('article');
-                    card.className = 'product-card';
-                    card.setAttribute('data-category', catNormalized);
-                    card.setAttribute('data-name', p.name);
+            if (!response.ok) {
+                throw new Error('Erro ao buscar produtos da API');
+            }
 
-                    card.innerHTML = `
-                        <div class="product-image-container">
-                            <img src="${p.image}" alt="${p.name}" class="product-image" loading="lazy" onerror="this.src='fotosProdutos/364.png'">
-                        </div>
-                        <div class="product-content">
-                            <span class="product-category">${p.category}</span>
-                            <h3 class="product-title">${p.name}</h3>
-                            <p class="product-description">Leve a partir de 5 unidades e pague preço de atacado.</p>
-                            
-                            <div class="product-prices">
-                                <div class="price-row">
-                                    <span class="price-label">Atacado (5+ un):</span>
-                                    <div>
-                                        <span class="price-value">Pix: R$ ${Number(p.wholesalePix || 0).toFixed(2).replace('.', ',')}</span>
-                                        <span class="price-sub">Cartão: R$ ${Number(p.wholesaleCard || 0).toFixed(2).replace('.', ',')}</span>
-                                    </div>
-                                </div>
-                                <div class="price-row">
-                                    <span class="price-label">Varejo (1 a 4 un):</span>
-                                    <div>
-                                        <span class="price-value">Pix: R$ ${Number(p.retailPix || 0).toFixed(2).replace('.', ',')}</span>
-                                        <span class="price-sub">Cartão: R$ ${Number(p.retailCard || 0).toFixed(2).replace('.', ',')}</span>
-                                    </div>
-                                </div>
+            produtosCatalogo = await response.json();
+
+            paginaAtual = 1;
+
+            renderizarPaginaCatalogo();
+
+        } catch (error) {
+
+            console.error(
+                'Erro ao carregar produtos do catálogo:',
+                error
+            );
+
+            const grid = document.getElementById('productsGrid');
+
+            if (grid) {
+
+                grid.innerHTML = `
+                    <p style="
+                        grid-column: 1/-1;
+                        text-align: center;
+                        color: #dc2626;
+                        padding: 40px;
+                    ">
+                        Erro ao carregar os produtos do servidor.
+                    </p>
+                `;
+            }
+        }
+    }
+
+
+    /* =========================================
+       RENDERIZAR PRODUTOS DA PÁGINA ATUAL
+    ========================================= */
+
+    function renderizarPaginaCatalogo() {
+
+        const grid = document.getElementById('productsGrid');
+
+        if (!grid) return;
+
+        grid.innerHTML = '';
+
+        if (produtosCatalogo.length === 0) {
+
+            grid.innerHTML = `
+                <p style="
+                    grid-column: 1/-1;
+                    text-align: center;
+                    color: #6b7280;
+                    padding: 40px;
+                ">
+                    Nenhum produto cadastrado no momento.
+                </p>
+            `;
+
+            renderizarPaginacao();
+
+            return;
+        }
+
+
+        /*
+         * Calcula quais produtos serão exibidos.
+         *
+         * Página 1 = produtos 0 até 7
+         * Página 2 = produtos 8 até 15
+         * Página 3 = produtos 16 até 23
+         */
+
+        const inicio = (paginaAtual - 1) * produtosPorPagina;
+        const fim = inicio + produtosPorPagina;
+
+        const produtosDaPagina = produtosCatalogo.slice(inicio, fim);
+
+
+        produtosDaPagina.forEach(p => {
+
+            const catNormalized =
+                (p.category || 'geral').toLowerCase();
+
+
+            const card = document.createElement('article');
+
+            card.className = 'product-card';
+
+            card.setAttribute(
+                'data-category',
+                catNormalized
+            );
+
+            card.setAttribute(
+                'data-name',
+                p.name
+            );
+
+
+            card.innerHTML = `
+
+                <div class="product-image-container">
+
+                    <img 
+                        src="${p.image}" 
+                        alt="${p.name}" 
+                        class="product-image" 
+                        loading="lazy"
+                        onerror="this.src='fotosProdutos/364.png'"
+                    >
+
+                </div>
+
+
+                <div class="product-content">
+
+                    <span class="product-category">
+                        ${p.category}
+                    </span>
+
+
+                    <h3 class="product-title">
+                        ${p.name}
+                    </h3>
+
+
+                    <p class="product-description">
+                        Os preços podem sofrer alterações de acordo com o tamanho ou litragem do produto.
+                    </p>
+
+
+                    <div class="product-prices">
+
+                        <!-- ATACADO -->
+
+                        <div class="price-row">
+
+                            <span class="price-label">
+                                Atacado (5+ un) — A partir de:
+                            </span>
+
+                            <div>
+
+                                <span class="price-value">
+                                    Pix: R$ ${Number(p.wholesalePix || 0)
+                                        .toFixed(2)
+                                        .replace('.', ',')}
+                                </span>
+
+                                <span class="price-sub">
+                                    Cartão: R$ ${Number(p.wholesaleCard || 0)
+                                        .toFixed(2)
+                                        .replace('.', ',')}
+                                </span>
+
                             </div>
 
-                            <button class="add-to-cart-btn" onclick="addToCart(${p.id})">Adicionar ao Carrinho</button>
                         </div>
-                    `;
-                    grid.appendChild(card);
-                });
-            } catch (error) {
-                console.error('Erro ao carregar produtos do catálogo:', error);
+
+
+                        <!-- VAREJO -->
+
+                        <div class="price-row">
+
+                            <span class="price-label">
+                                Varejo — A partir de:
+                            </span>
+
+                            <div>
+
+                                <span class="price-value">
+                                    Pix: R$ ${Number(p.retailPix || 0)
+                                        .toFixed(2)
+                                        .replace('.', ',')}
+                                </span>
+
+                                <span class="price-sub">
+                                    Cartão: R$ ${Number(p.retailCard || 0)
+                                        .toFixed(2)
+                                        .replace('.', ',')}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <button 
+                        class="add-to-cart-btn"
+                        onclick="addToCart(${p.id})"
+                    >
+                        Adicionar ao Carrinho
+                    </button>
+
+                </div>
+            `;
+
+
+            grid.appendChild(card);
+
+        });
+
+
+        renderizarPaginacao();
+
+        aplicarFiltroAtual();
+
+    }
+
+
+    /* =========================================
+       PAGINAÇÃO
+    ========================================= */
+
+    function renderizarPaginacao() {
+
+        let paginacao =
+            document.getElementById('catalogoPagination');
+
+
+        /*
+         * Se ainda não existir o elemento,
+         * cria automaticamente abaixo dos produtos.
+         */
+
+        if (!paginacao) {
+
+            paginacao = document.createElement('div');
+
+            paginacao.id = 'catalogoPagination';
+
+            paginacao.style.cssText = `
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 8px;
+                margin: 40px 0 20px;
+                flex-wrap: wrap;
+            `;
+
+            const grid =
+                document.getElementById('productsGrid');
+
+            if (grid) {
+                grid.parentNode.insertBefore(
+                    paginacao,
+                    grid.nextSibling
+                );
             }
         }
 
-        // Executa a função assim que a página carregar
-        document.addEventListener('DOMContentLoaded', carregarProdutosCatalogo);
-    </script>
+
+        paginacao.innerHTML = '';
+
+
+        const totalPaginas =
+            Math.ceil(
+                produtosCatalogo.length /
+                produtosPorPagina
+            );
+
+
+        /*
+         * Se houver somente uma página,
+         * não mostra os botões.
+         */
+
+        if (totalPaginas <= 1) {
+            return;
+        }
+
+
+        /* BOTÃO ANTERIOR */
+
+        const anterior =
+            document.createElement('button');
+
+        anterior.textContent = '← Anterior';
+
+        anterior.disabled =
+            paginaAtual === 1;
+
+        anterior.style.cssText = `
+            padding: 9px 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            background: #fff;
+            color: #374151;
+            cursor: ${paginaAtual === 1
+                ? 'not-allowed'
+                : 'pointer'};
+            font-weight: 600;
+        `;
+
+        anterior.onclick = () => {
+
+            if (paginaAtual > 1) {
+
+                paginaAtual--;
+
+                renderizarPaginaCatalogo();
+
+                window.scrollTo({
+                    top: document
+                        .getElementById('produtos')
+                        .offsetTop - 80,
+                    behavior: 'smooth'
+                });
+            }
+        };
+
+        paginacao.appendChild(anterior);
+
+
+        /* NÚMEROS DAS PÁGINAS */
+
+        for (
+            let i = 1;
+            i <= totalPaginas;
+            i++
+        ) {
+
+            const botao =
+                document.createElement('button');
+
+            botao.textContent = i;
+
+            const paginaAtiva =
+                i === paginaAtual;
+
+
+            botao.style.cssText = `
+                min-width: 38px;
+                height: 38px;
+                padding: 0 10px;
+                border: 1px solid ${paginaAtiva
+                    ? '#16a34a'
+                    : '#d1d5db'};
+                border-radius: 7px;
+                background: ${paginaAtiva
+                    ? '#16a34a'
+                    : '#fff'};
+                color: ${paginaAtiva
+                    ? '#fff'
+                    : '#374151'};
+                cursor: pointer;
+                font-weight: 700;
+            `;
+
+
+            botao.onclick = () => {
+
+                paginaAtual = i;
+
+                renderizarPaginaCatalogo();
+
+                window.scrollTo({
+                    top: document
+                        .getElementById('produtos')
+                        .offsetTop - 80,
+                    behavior: 'smooth'
+                });
+
+            };
+
+
+            paginacao.appendChild(botao);
+
+        }
+
+
+        /* BOTÃO PRÓXIMA */
+
+        const proxima =
+            document.createElement('button');
+
+        proxima.textContent = 'Próxima →';
+
+        proxima.disabled =
+            paginaAtual === totalPaginas;
+
+        proxima.style.cssText = `
+            padding: 9px 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            background: #fff;
+            color: #374151;
+            cursor: ${paginaAtual === totalPaginas
+                ? 'not-allowed'
+                : 'pointer'};
+            font-weight: 600;
+        `;
+
+
+        proxima.onclick = () => {
+
+            if (paginaAtual < totalPaginas) {
+
+                paginaAtual++;
+
+                renderizarPaginaCatalogo();
+
+                window.scrollTo({
+                    top: document
+                        .getElementById('produtos')
+                        .offsetTop - 80,
+                    behavior: 'smooth'
+                });
+
+            }
+
+        };
+
+
+        paginacao.appendChild(proxima);
+
+
+        /* INFORMAÇÃO DA PÁGINA */
+
+        const info =
+            document.createElement('span');
+
+        info.textContent =
+            `Página ${paginaAtual} de ${totalPaginas}`;
+
+        info.style.cssText = `
+            width: 100%;
+            text-align: center;
+            margin-top: 8px;
+            font-size: 12px;
+            color: #6b7280;
+        `;
+
+        paginacao.appendChild(info);
+
+    }
+
+
+    /* =========================================
+       FILTRO DE CATEGORIA
+    ========================================= */
+
+    let categoriaSelecionada = 'todos';
+
+
+    function aplicarFiltroAtual() {
+
+        const cards =
+            document.querySelectorAll(
+                '#productsGrid .product-card'
+            );
+
+
+        cards.forEach(card => {
+
+            const categoria =
+                card.dataset.category;
+
+
+            if (
+                categoriaSelecionada === 'todos' ||
+                categoria === categoriaSelecionada
+            ) {
+
+                card.style.display = '';
+
+            } else {
+
+                card.style.display = 'none';
+
+            }
+
+        });
+
+    }
+
+
+    document.addEventListener('click', event => {
+
+        const filterBtn =
+            event.target.closest('.filter');
+
+        if (!filterBtn) return;
+
+
+        document
+            .querySelectorAll('.filter')
+            .forEach(btn =>
+                btn.classList.remove('active')
+            );
+
+
+        filterBtn.classList.add('active');
+
+
+        categoriaSelecionada =
+            filterBtn.dataset.filter;
+
+
+        aplicarFiltroAtual();
+
+    });
+
+
+    /* =========================================
+       PESQUISA
+    ========================================= */
+
+    const campoBusca =
+        document.getElementById('catalogoSearch');
+
+
+    if (campoBusca) {
+
+        campoBusca.addEventListener(
+            'input',
+            function () {
+
+                const busca =
+                    this.value
+                        .toLowerCase()
+                        .trim();
+
+
+                const cards =
+                    document.querySelectorAll(
+                        '#productsGrid .product-card'
+                    );
+
+
+                cards.forEach(card => {
+
+                    const nome =
+                        (
+                            card.dataset.name ||
+                            ''
+                        ).toLowerCase();
+
+
+                    const categoria =
+                        card.dataset.category;
+
+
+                    const encontrouNome =
+                        nome.includes(busca);
+
+
+                    const encontrouCategoria =
+                        categoria.includes(busca);
+
+
+                    const passouFiltroCategoria =
+                        categoriaSelecionada === 'todos' ||
+                        categoria === categoriaSelecionada;
+
+
+                    if (
+                        (encontrouNome ||
+                            encontrouCategoria) &&
+                        passouFiltroCategoria
+                    ) {
+
+                        card.style.display = '';
+
+                    } else {
+
+                        card.style.display = 'none';
+
+                    }
+
+                });
+
+            }
+        );
+
+    }
+
+
+    /* =========================================
+       INICIALIZAÇÃO
+    ========================================= */
+
+    document.addEventListener(
+        'DOMContentLoaded',
+        carregarProdutosCatalogo
+    );
+
+</script>
 
 </body>
 
