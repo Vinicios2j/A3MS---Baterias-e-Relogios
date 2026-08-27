@@ -56,22 +56,45 @@ function closeCart() {
    BUSCAR PRODUTOS DA API E RENDERIZAR NA HOME (APENAS OS 4 PRIMEIROS)
 ========================================= */
 
+//localhost
+
 async function fetchAndRenderProducts() {
     try {
-        const response = await fetch('https://7ec2-201-7-215-23.ngrok-free.app/api/products'); //http://localhost:3000/api/products
-        if (!response.ok) throw new Error("Erro ao buscar produtos da API");
-        
+        const response = await fetch(
+            'https://7ec2-201-7-215-23.ngrok-free.app/api/products',
+            {
+                method: 'GET',
+                headers: {
+                    'ngrok-skip-browser-warning': 'true'
+                }
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error("Erro ao buscar produtos da API");
+        }
+
         products = await response.json();
-        
-        // Pega apenas os primeiros 4 produtos do array para mostrar na Home
+
         const featuredProducts = products.slice(0, 4);
-        
+
         renderProductCards(featuredProducts);
+
     } catch (error) {
         console.error("Erro:", error);
+
         const grid = document.getElementById("productsGrid");
+
         if (grid) {
-            grid.innerHTML = `<p style="text-align:center; color:red; grid-column: 1/-1;">Erro ao carregar os produtos do servidor. Verifique se a API está rodando.</p>`;
+            grid.innerHTML = `
+                <p style="
+                    text-align:center;
+                    color:red;
+                    grid-column:1/-1;
+                ">
+                    Erro ao carregar os produtos do servidor.
+                </p>
+            `;
         }
     }
 }
