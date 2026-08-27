@@ -100,7 +100,7 @@ async function fetchAndRenderProducts() {
 }
 
 function renderProductCards(productsList) {
-    const grid = document.getElementById("productsGrid");
+    const grid = document.getElementById("homeProductsGrid");
     if (!grid) return;
 
     if (productsList.length === 0) {
@@ -621,14 +621,12 @@ function showToast(message) {
 ========================================= */
 document.addEventListener("DOMContentLoaded", () => {
 
-    // Só renderiza os produtos da Home
-    // se existir um grid específico da Home.
-    if (
-        document.getElementById("homeProductsGrid")
-    ) {
+    // Renderiza os produtos somente na Home
+    if (document.getElementById("homeProductsGrid")) {
         fetchAndRenderProducts();
     }
 
+    // Carrinho funciona tanto na Home quanto no Catálogo
     updateCart();
 
 });
