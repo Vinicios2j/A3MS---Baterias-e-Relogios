@@ -58,7 +58,7 @@ function closeCart() {
 
 async function fetchAndRenderProducts() {
     try {
-        const response = await fetch('https://c046-201-7-215-23.ngrok-free.app/api/products'); //http://localhost:3000/api/products
+        const response = await fetch('https://1aff-201-7-215-23.ngrok-free.app/api/products'); //http://localhost:3000/api/products
         if (!response.ok) throw new Error("Erro ao buscar produtos da API");
         
         products = await response.json();
