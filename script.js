@@ -61,7 +61,7 @@ function closeCart() {
 async function fetchAndRenderProducts() {
     try {
         const response = await fetch(
-            'https://7ec2-201-7-215-23.ngrok-free.app/api/products',
+            'https://3fc3-201-7-215-23.ngrok-free.app/api/products',
             {
                 method: 'GET',
                 headers: {
